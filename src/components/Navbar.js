@@ -1,75 +1,51 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
+import "../styles/Navbar.css";
 
 const Navbar = () => {
-  const location = useLocation();
-  const [cartCount] = useState(3); // Example cart count
+  const { cartItems } = useContext(CartContext);
 
   return (
-    <nav className='navbar'>
-      <div className='container nav-container'>
-        <Link
-          to='/'
-          className='logo'>
-          <img
-            src='/logo.png'
-            alt='HK Dealers'
-            className='logo-img'
-          />
-          <span className='logo-text'>
-            {" "}
-            HK <span className='logo-highlight'> DEALERS </span>
-          </span>
-        </Link>{" "}
-        <ul className='nav-links'>
-          <li>
-            <Link
-              to='/'
-              className={`nav-link ${
-                location.pathname === "/" ? "active" : ""
-              }`}>
-              Home{" "}
-            </Link>{" "}
-          </li>{" "}
-          <li>
-            <Link
-              to='/products'
-              className={`nav-link ${
-                location.pathname === "/products" ? "active" : ""
-              }`}>
-              Watches{" "}
-            </Link>{" "}
-          </li>{" "}
-          <li>
-            <Link
-              to='/about'
-              className={`nav-link ${
-                location.pathname === "/about" ? "active" : ""
-              }`}>
-              About{" "}
-            </Link>{" "}
-          </li>{" "}
-          <li>
-            <Link
-              to='/contact'
-              className={`nav-link ${
-                location.pathname === "/contact" ? "active" : ""
-              }`}>
-              Contact{" "}
-            </Link>{" "}
-          </li>{" "}
-          <li>
-            <Link
-              to='/cart'
-              className='nav-link cart-icon'>
-              Cart{" "}
-              {cartCount > 0 && (
-                <span className='cart-count'> {cartCount} </span>
-              )}{" "}
-            </Link>{" "}
-          </li>{" "}
-        </ul>{" "}
-      </div>{" "}
+    <nav className="navbar">
+      <div className="container">
+        <div className="nav-container">
+          <Link to="/" className="logo">
+            <img src="/logo.png" alt="WatchHK Logo" className="logo-img" />
+          </Link>
+
+          <ul className="nav-links">
+            <li>
+              <Link to="/" className="nav-link">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/products" className="nav-link">
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="nav-link">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="nav-link">
+                Contact
+              </Link>
+            </li>
+            <li className="cart-icon">
+              <Link to="/cart" className="nav-link">
+                Cart
+                {cartItems.length > 0 && (
+                  <span className="cart-count">{cartItems.length}</span>
+                )}
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
   );
 };

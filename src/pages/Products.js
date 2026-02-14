@@ -1,67 +1,20 @@
 import React, { useState, useEffect } from "react";
 import WatchCard from "../components/WatchCard";
+import watches from "../data/watches";
 
 const Products = () => {
-  const [watches, setWatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     brand: "",
     condition: "",
     minPrice: "",
-    maxPrice: "",
+    maxPrice: ""
   });
 
   useEffect(() => {
-    // Sample data - replace with API call
-    const sampleWatches = [
-      {
-        id: 1,
-        brand: "Rolex",
-        model: "Submariner Date",
-        price: 98500,
-        condition: "New",
-      },
-      {
-        id: 2,
-        brand: "Patek Philippe",
-        model: "Nautilus 5711",
-        price: 1250000,
-        condition: "Pre-owned",
-      },
-      {
-        id: 3,
-        brand: "Audemars Piguet",
-        model: "Royal Oak",
-        price: 420000,
-        condition: "New",
-      },
-      {
-        id: 4,
-        brand: "Omega",
-        model: "Speedmaster",
-        price: 58000,
-        condition: "New",
-      },
-      {
-        id: 5,
-        brand: "Rolex",
-        model: "Daytona",
-        price: 350000,
-        condition: "Pre-owned",
-      },
-      {
-        id: 6,
-        brand: "Cartier",
-        model: "Santos",
-        price: 75000,
-        condition: "New",
-      },
-    ];
-
     setTimeout(() => {
-      setWatches(sampleWatches);
       setLoading(false);
-    }, 800);
+    }, 500);
   }, []);
 
   const handleChange = (e) => {
@@ -89,44 +42,56 @@ const Products = () => {
 
   return (
     <div
-      className='container'
-      style={{ paddingTop: "2rem" }}>
+      className="container"
+      style={{ paddingTop: "2rem", paddingBottom: "3rem" }}
+    >
       <h1 style={{ marginBottom: "1rem" }}> Our Watch Collection </h1>{" "}
       <p style={{ color: "#666", marginBottom: "2rem" }}>
-        {" "}
-        Curated selection of luxury timepieces{" "}
+        Curated selection of luxury timepieces from the world 's finest
+        brands{" "}
       </p>
-      {/* Filters */}{" "}
       <div
         style={{
           background: "white",
           padding: "1.5rem",
           borderRadius: "8px",
           marginBottom: "2rem",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        }}>
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+        }}
+      >
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
             gap: "1rem",
-            marginBottom: "1rem",
-          }}>
+            marginBottom: "1rem"
+          }}
+        >
           <div>
-            <label style={{ display: "block", marginBottom: "0.5rem" }}>
-              {" "}
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "600"
+              }}
+            >
               Brand{" "}
             </label>{" "}
             <select
-              name='brand'
+              name="brand"
               value={filters.brand}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}>
-              <option value=''> All Brands </option>{" "}
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem"
+              }}
+            >
+              <option value=""> All Brands </option>{" "}
               {brands.map((b) => (
-                <option
-                  key={b}
-                  value={b}>
+                <option key={b} value={b}>
                   {" "}
                   {b}{" "}
                 </option>
@@ -134,81 +99,126 @@ const Products = () => {
             </select>{" "}
           </div>
           <div>
-            <label style={{ display: "block", marginBottom: "0.5rem" }}>
-              {" "}
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "600"
+              }}
+            >
               Condition{" "}
             </label>{" "}
             <select
-              name='condition'
+              name="condition"
               value={filters.condition}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}>
-              <option value=''> Any </option> <option value='New'> New </option>{" "}
-              <option value='Pre-owned'> Pre - owned </option>{" "}
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem"
+              }}
+            >
+              <option value=""> Any Condition </option>{" "}
+              <option value="New"> New </option>{" "}
+              <option value="Pre-owned"> Pre - owned </option>{" "}
             </select>{" "}
           </div>
           <div>
-            <label style={{ display: "block", marginBottom: "0.5rem" }}>
-              {" "}
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "600"
+              }}
+            >
               Min Price(HKD){" "}
             </label>{" "}
             <input
-              type='number'
-              name='minPrice'
+              type="number"
+              name="minPrice"
               value={filters.minPrice}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}
+              placeholder="0"
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem"
+              }}
             />{" "}
           </div>
           <div>
-            <label style={{ display: "block", marginBottom: "0.5rem" }}>
-              {" "}
+            <label
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                fontWeight: "600"
+              }}
+            >
               Max Price(HKD){" "}
             </label>{" "}
             <input
-              type='number'
-              name='maxPrice'
+              type="number"
+              name="maxPrice"
               value={filters.maxPrice}
               onChange={handleChange}
-              style={{ width: "100%", padding: "8px" }}
+              placeholder="No limit"
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem"
+              }}
             />{" "}
           </div>{" "}
         </div>
         <div style={{ display: "flex", gap: "0.75rem" }}>
-          <button
-            className='btn btn-primary'
-            onClick={() => setFilters((f) => ({ ...f }))}>
-            Apply{" "}
-          </button>{" "}
-          <button
-            className='btn btn-secondary'
-            onClick={clearFilters}>
-            Clear{" "}
+          <button className="btn btn-secondary" onClick={clearFilters}>
+            Clear Filters{" "}
           </button>{" "}
         </div>{" "}
       </div>
-      {/* Products list */}{" "}
+      <div
+        style={{
+          marginBottom: "1rem",
+          color: "#666",
+          fontSize: "0.95rem"
+        }}
+      >
+        Showing {filteredWatches.length}
+        of {watches.length}
+        watches{" "}
+      </div>
       {loading ? (
-        <div className='spinner' />
+        <div className="spinner" />
       ) : (
-        <div className='products-grid'>
+        <div className="products-grid">
           {" "}
           {filteredWatches.length ? (
             filteredWatches.map((watch) => (
-              <WatchCard
-                key={watch.id}
-                watch={watch}
-              />
+              <WatchCard key={watch.id} watch={watch} />
             ))
           ) : (
             <div
               style={{
                 gridColumn: "1/-1",
                 textAlign: "center",
-                padding: "2rem",
-              }}>
-              {" "}
-              No watches found.{" "}
+                padding: "3rem",
+                background: "white",
+                borderRadius: "8px"
+              }}
+            >
+              <h3 style={{ marginBottom: "0.5rem" }}> No watches found </h3>{" "}
+              <p style={{ color: "#666", marginBottom: "1.5rem" }}>
+                Try adjusting your filters to see more results{" "}
+              </p>{" "}
+              <button className="btn btn-primary" onClick={clearFilters}>
+                Clear All Filters{" "}
+              </button>{" "}
             </div>
           )}{" "}
         </div>

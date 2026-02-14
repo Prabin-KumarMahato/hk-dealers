@@ -1,80 +1,67 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WatchCard from "../components/WatchCard";
+import watches from "../data/watches";
+import BannerSlider from "../components/BannerSlider";
 
 const Home = () => {
   const [featuredWatches, setFeaturedWatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Sample data - replace with API call
-    const sampleWatches = [
-      {
-        id: 1,
-        brand: "Rolex",
-        model: "Submariner Date",
-        price: 98500,
-        condition: "New",
-        image:
-          "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      },
-      {
-        id: 2,
-        brand: "Patek Philippe",
-        model: "Nautilus 5711",
-        price: 1250000,
-        condition: "Pre-owned",
-        image:
-          "https://images.unsplash.com/photo-1547996160-81f58f6e7b47?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      },
-      {
-        id: 3,
-        brand: "Audemars Piguet",
-        model: "Royal Oak",
-        price: 420000,
-        condition: "New",
-        image:
-          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      },
-    ];
-
     setTimeout(() => {
-      setFeaturedWatches(sampleWatches);
+      setFeaturedWatches(watches.slice(0, 3));
       setLoading(false);
-    }, 800);
+    }, 500);
   }, []);
 
   return (
     <div>
-      {" "}
-      {/* Hero Section */}{" "}
-      <section className='hero'>
-        <div className='container'>
-          <h1> Luxury Watches in Hong Kong </h1>{" "}
-          <p>
-            Discover authentic timepieces from the world 's finest watchmakers.
-            Verified authenticity, expert service.{" "}
-          </p>
-          <div style={{ marginTop: "2rem" }}>
-            <Link
-              to='/products'
-              className='btn btn-primary'>
-              Browse Collection{" "}
-            </Link>{" "}
-            <Link
-              to='/about'
-              className='btn btn-secondary'
-              style={{ marginLeft: "1rem" }}>
-              Learn More{" "}
-            </Link>{" "}
-          </div>{" "}
-        </div>{" "}
-      </section>
-      {/* Featured Brands */}{" "}
       <section
-        className='container'
-        style={{ marginBottom: "3rem" }}>
-        <h2 style={{ textAlign: "center", marginBottom: "2rem" }}>
+        style={{
+          background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+          color: "white",
+          padding: "5rem 0",
+          textAlign: "center",
+        }}
+      >
+        <div className="container">
+          <BannerSlider />
+          <h1
+            style={{
+              fontSize: "3.5rem",
+              marginBottom: "1rem",
+              fontWeight: "700",
+            }}
+          >
+            
+          
+          </h1>{" "}
+  
+          
+         
+          
+         
+          <Link
+            to="/products"
+            className="btn btn-primary"
+            style={{ fontSize: "1.1rem", padding: "1rem 2.5rem" }}
+          >
+            Explore Collection{" "}
+          </Link>{" "}
+        </div>{" "}
+      </section>{" "}
+      <section
+        className="container"
+        style={{ marginTop: "4rem", marginBottom: "3rem" }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: "2.5rem",
+            fontSize: "2.5rem",
+          }}
+        >
           Trusted Brands{" "}
         </h2>{" "}
         <div
@@ -84,7 +71,10 @@ const Home = () => {
             justifyContent: "center",
             gap: "1.5rem",
             marginBottom: "3rem",
-          }}>
+          
+          }}
+        >
+          {" "}
           {[
             "ROLEX",
             "PATEK PHILIPPE",
@@ -95,73 +85,183 @@ const Home = () => {
             <div
               key={brand}
               style={{
-                padding: "1rem 2rem",
-                border: "1px solid #eee",
-                borderRadius: "4px",
-                fontWeight: "600",
-              }}>
+                padding: "1.25rem 2.5rem",
+                border: "2px solid #070000",
+                borderRadius: "8px",
+                fontWeight: "700",
+                fontSize: "1.05rem",
+                letterSpacing: "1px",
+                transition: "all 0.3s ease",
+                cursor: "default",
+              }}
+            >
+              {" "}
               {brand}{" "}
             </div>
           ))}{" "}
         </div>{" "}
-      </section>
-      {/* Featured Watches */}{" "}
-      <section className='container'>
-        <h2 style={{ textAlign: "center", marginBottom: "2rem" }}>
+      </section>{" "}
+      <section className="container" style={{ marginBottom: "4rem" }}>
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: "2.5rem",
+            fontSize: "2.5rem",
+          }}
+        >
           Featured Timepieces{" "}
-        </h2>
+        </h2>{" "}
         {loading ? (
-          <div className='spinner' />
+          <div className="spinner" />
         ) : (
-          <div className='products-grid'>
+          <div className="products-grid">
             {" "}
             {featuredWatches.map((watch) => (
-              <WatchCard
-                key={watch.id}
-                watch={watch}
-              />
+              <WatchCard key={watch.id} watch={watch} />
             ))}{" "}
           </div>
-        )}
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        )}{" "}
+        <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
           <Link
-            to='/products'
-            className='btn btn-secondary'>
+            to="/products"
+            className="btn btn-secondary"
+            style={{ fontSize: "1.1rem", padding: "0.9rem 2rem" }}
+          >
             View All Watches{" "}
           </Link>{" "}
         </div>{" "}
-      </section>
-      {/* Trust Section */}{" "}
+      </section>{" "}
       <section
         style={{
           background: "#1a1a1a",
           color: "white",
           padding: "4rem 0",
           marginTop: "3rem",
-        }}>
-        <div className='container'>
+        }}
+      >
+        <div className="container">
+          <h2
+            style={{
+              textAlign: "center",
+              marginBottom: "3rem",
+              fontSize: "2.5rem",
+            }}
+          >
+            Why Choose Us{" "}
+          </h2>{" "}
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "2rem",
-            }}>
+              gap: "3rem",
+            }}
+          >
             <div style={{ textAlign: "center" }}>
-              <h3 style={{ color: "#d4af37" }}> ✓100 % Authentic </h3>{" "}
-              <p> Expert verification </p>{" "}
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> ✓ </div>{" "}
+              <h3
+                style={{
+                  color: "#d4af37",
+                  marginBottom: "0.75rem",
+                  fontSize: "1.4rem",
+                }}
+              >
+                100 % Authentic{" "}
+              </h3>{" "}
+              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
+                Every watch is verified by our expert team to ensure complete
+                authenticity{" "}
+              </p>{" "}
             </div>{" "}
             <div style={{ textAlign: "center" }}>
-              <h3 style={{ color: "#d4af37" }}> ✓2 - Year Warranty </h3>{" "}
-              <p> Comprehensive coverage </p>{" "}
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> 🛡️ </div>{" "}
+              <h3
+                style={{
+                  color: "#d4af37",
+                  marginBottom: "0.75rem",
+                  fontSize: "1.4rem",
+                }}
+              >
+                2 - Year Warranty{" "}
+              </h3>{" "}
+              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
+                Comprehensive coverage on all timepieces for your peace of
+                mind{" "}
+              </p>{" "}
             </div>{" "}
             <div style={{ textAlign: "center" }}>
-              <h3 style={{ color: "#d4af37" }}> ✓Global Shipping </h3>{" "}
-              <p> Secure worldwide delivery </p>{" "}
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> 🌍 </div>{" "}
+              <h3
+                style={{
+                  color: "#d4af37",
+                  marginBottom: "0.75rem",
+                  fontSize: "1.4rem",
+                }}
+              >
+                Global Shipping{" "}
+              </h3>{" "}
+              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
+                Secure worldwide delivery with full insurance and tracking{" "}
+              </p>{" "}
             </div>{" "}
             <div style={{ textAlign: "center" }}>
-              <h3 style={{ color: "#d4af37" }}> ✓Trade - In </h3>{" "}
-              <p> Upgrade your collection </p>{" "}
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> 🔄 </div>{" "}
+              <h3
+                style={{
+                  color: "#d4af37",
+                  marginBottom: "0.75rem",
+                  fontSize: "1.4rem",
+                }}
+              >
+                Trade - In Service{" "}
+              </h3>{" "}
+              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
+                Upgrade your collection with our flexible trade - in
+                program{" "}
+              </p>{" "}
             </div>{" "}
+          </div>{" "}
+        </div>{" "}
+      </section>{" "}
+      <section className="container" style={{ padding: "4rem 0" }}>
+        <div
+          style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto" }}
+        >
+          <h2 style={{ marginBottom: "1.5rem", fontSize: "2.5rem" }}>
+            Ready to Find Your Perfect Timepiece ?
+          </h2>{" "}
+          <p
+            style={{
+              color: "#666",
+              marginBottom: "2rem",
+              fontSize: "1.1rem",
+              lineHeight: "1.8",
+            }}
+          >
+            Browse our exclusive collection or contact us for personalized
+            assistance in finding the watch of your dreams.{" "}
+          </p>{" "}
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <Link
+              to="/products"
+              className="btn btn-primary"
+              style={{ fontSize: "1.05rem" }}
+            >
+              Browse Collection{" "}
+            </Link>{" "}
+            <Link
+              to="/contact"
+              className="btn btn-secondary"
+              style={{ fontSize: "1.05rem" }}
+            >
+              Contact Us{" "}
+            </Link>{" "}
           </div>{" "}
         </div>{" "}
       </section>{" "}

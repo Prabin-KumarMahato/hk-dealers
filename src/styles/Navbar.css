@@ -1,0 +1,202 @@
+/* Navigation - Updated with larger text */
+.navbar {
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #d4af37;
+}
+
+.navbar .nav-container {
+  display: flex;
+  justify-content: flex-start; /* Keep logo at start */
+  align-items: center;
+  height: 80px; /* Slightly increased height for larger text */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem; /* Increased logo text size */
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.3s;
+  height: 100%;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+/* Logo image styling - fixed size */
+.logo img {
+  height: 55px; /* Slightly increased */
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.logo-text {
+  display: flex;
+  gap: 4px;
+  font-size: 2rem; /* Increased logo text size */
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.logo-highlight {
+  color: #d4af37;
+}
+
+.navbar .nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem; /* Comfortable gap between links */
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  margin-left: auto; /* Push links to the right side */
+  justify-content: flex-end; /* Align items to the right */
+  flex-wrap: nowrap; /* Keep single row on desktop */
+}
+
+.nav-links li {
+  position: relative;
+}
+
+/* Main navigation links - INCREASED TEXT SIZE */
+.navbar .nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.25rem; /* Refined size for better balance */
+  transition: all 0.3s;
+  padding: 0.6rem 1rem; /* Slightly tighter padding */
+  display: inline-block;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+.nav-link:hover {
+  color: #d4af37;
+  background-color: rgba(255, 255, 255, 0.08); /* Slightly more visible hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Active nav link styling */
+.nav-link.active {
+  color: #d4af37;
+  font-weight: 700;
+  position: relative;
+}
+
+/* Add underline effect for active link */
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background-color: #d4af37;
+  border-radius: 2px;
+}
+
+/* Cart icon styling - adjusted for larger text */
+.cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+}
+
+.cart-icon svg {
+  width: 28px; /* Increased icon size */
+  height: 28px; /* Increased icon size */
+  fill: currentColor;
+  transition: transform 0.3s;
+}
+
+.cart-icon:hover svg {
+  transform: scale(1.1); /* Slight scale effect on hover */
+}
+
+.cart-count {
+  position: absolute;
+  top: 0px;
+  right: 4px;
+  background-color: #d4af37;
+  color: #1a1a1a;
+  font-size: 0.85rem; /* Slightly increased */
+  font-weight: bold;
+  width: 24px; /* Increased size */
+  height: 24px; /* Increased size */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #1a1a1a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 968px) {
+  .navbar .nav-links {
+    gap: 1.6rem;
+    margin-left: auto; /* Keep right alignment on tablet */
+    justify-content: flex-end;
+  }
+
+  .navbar .nav-link {
+    font-size: 1.15rem; /* Slightly smaller on medium screens */
+    padding: 0.5rem 0.9rem;
+  }
+
+  .navbar .logo-text {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar .nav-container {
+    flex-direction: row; /* Keep logo left, links right */
+    height: auto;
+    gap: 0.8rem;
+    padding: 0.8rem 0;
+  }
+
+  .navbar .logo {
+    justify-content: flex-start;
+  }
+
+  .navbar .logo img {
+    height: 45px;
+  }
+
+  .navbar .nav-links {
+    flex-wrap: wrap; /* Allow wrapping if space is tight */
+    gap: 0.8rem;
+    justify-content: flex-end; /* Maintain right alignment */
+    width: 100%;
+    margin-left: auto;
+  }
+
+  .navbar .nav-link {
+    font-size: 1.1rem; /* Good size on mobile */
+    padding: 0.5rem 0.8rem;
+  }
+
+  .navbar .logo-text {
+    font-size: 1.6rem;
+  }
+
+  .navbar .cart-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
