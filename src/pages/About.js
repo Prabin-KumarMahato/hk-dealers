@@ -1,122 +1,226 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import "./About.css"; // Create this CSS file
 
 const About = () => {
   return (
-    <div
-      className="container"
-      style={{ paddingTop: "2rem", paddingBottom: "3rem" }}
-    >
-      <h1 style={{ marginBottom: "2rem" }}> About WatchHK </h1>
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ marginBottom: "1rem", color: "#d4af37" }}>
-            Nepal 's Premier Luxury Watch Dealer{" "}
-          </h2>{" "}
-          <p style={{ lineHeight: "1.8", color: "#555", marginBottom: "1rem" }}>
-            Welcome to WatchHK, your trusted destination for authentic luxury
-            timepieces in Nepal.Since our establishment, we have been dedicated
-            to bringing the world 's finest watches to discerning collectors and
-            enthusiasts.{" "}
-          </p>{" "}
-          <p style={{ lineHeight: "1.8", color: "#555", marginBottom: "1rem" }}>
-            Our carefully curated collection features prestigious brands
-            including Rolex, Patek Philippe, Audemars Piguet, Omega, and
-            Cartier.Each timepiece in our inventory is meticulously verified for
-            authenticity and condition by our team of expert horologists.{" "}
-          </p>{" "}
+    <div className="about-container">
+      {/* Hero Section */}
+      <section className="about-hero">
+        <div className="container">
+          <div className="hero-content">
+            <h1 className="hero-title">
+              Nepal's Premier <span className="highlight">Luxury Watch Dealer</span> 
+            </h1>
+            <p className="hero-subtitle">
+              We're on a mission to bring the world's finest timepieces to Nepal, 
+              empowering watch enthusiasts to own their dream watches with authenticity 
+              and trust, backed by expert horological knowledge.
+            </p>
+          </div>
         </div>
-        <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ marginBottom: "1rem", color: "#d4af37" }}>
-            {" "}
-            Our Commitment{" "}
-          </h2>{" "}
-          <div
-            style={{
-              display: "grid",
-              gap: "1.5rem",
-              background: "#f9f9f9",
-              padding: "2rem",
-              borderRadius: "8px"
-            }}
-          >
-            <div>
-              <h3 style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
-                {" "}
-                Authenticity Guaranteed{" "}
-              </h3>{" "}
-              <p style={{ lineHeight: "1.8", color: "#555" }}>
-                Every watch we sell comes with a certificate of authenticity and
-                has been thoroughly inspected by our expert team.We guarantee
-                100 % genuine luxury timepieces.{" "}
-              </p>{" "}
-            </div>{" "}
-            <div>
-              <h3 style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
-                {" "}
-                Expert Knowledge{" "}
-              </h3>{" "}
-              <p style={{ lineHeight: "1.8", color: "#555" }}>
-                Our team consists of certified watch specialists with decades of
-                combined experience in luxury horology.We 're here to guide you
-                through every step of your purchase.{" "}
-              </p>{" "}
-            </div>{" "}
-            <div>
-              <h3 style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
-                {" "}
-                Complete Service{" "}
-              </h3>{" "}
-              <p style={{ lineHeight: "1.8", color: "#555" }}>
-                From purchase to after - sales support, we provide comprehensive
-                service including warranty coverage, maintenance, and trade - in
-                options for your collection.{" "}
-              </p>{" "}
-            </div>{" "}
-          </div>{" "}
+        <div className="hero-overlay"></div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="mission-section">
+        <div className="container">
+          <div className="mission-grid">
+            <div className="mission-content">
+              <h2 className="section-title">Our Mission</h2>
+              <p className="mission-text">
+               HK Dealers was born from a simple belief: every watch enthusiast in Nepal 
+                deserves access to authentic luxury timepieces with complete transparency 
+                and expert guidance.
+              </p>
+              <p className="mission-text">
+                We've combined decades of horological expertise with rigorous authentication 
+                processes to create Nepal's most trusted luxury watch destination. Each 
+                timepiece in our collection undergoes meticulous verification by our team 
+                of certified watch specialists.
+              </p>
+              <div className="stats-container">
+                <div className="stat-item">
+                  <span className="stat-number">500+</span>
+                  <span className="stat-label">Happy Clients</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">100%</span>
+                  <span className="stat-label">Authentic</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-number">10+</span>
+                  <span className="stat-label">Luxury Brands</span>
+                </div>
+              </div>
+            </div>
+            <div className="mission-image">
+              <img 
+                src="/images/adviting-online1 .png" 
+                alt="HK Dealers Luxury Showroom"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/adviting-online1.png";
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ marginBottom: "1rem", color: "#d4af37" }}>
-            {" "}
-            Why Choose Us ?{" "}
-          </h2>{" "}
-          <ul
-            style={{ lineHeight: "2.5", color: "#555", paddingLeft: "1.5rem" }}
-          >
-            <li> Largest selection of luxury watches in Nepal </li>{" "}
-            <li> Competitive pricing and flexible payment options </li>{" "}
-            <li> 2 - year comprehensive warranty on all timepieces </li>{" "}
-            <li> Free worldwide insured shipping </li>{" "}
-            <li> Professional servicing and maintenance </li>{" "}
-            <li> Trade - in and consignment services </li>{" "}
-            <li> Personalized customer service </li>{" "}
-          </ul>{" "}
+      </section>
+
+      {/* Featured In Section */}
+      <section className="featured-section">
+        <div className="container">
+          <h2 className="section-title text-center">HK Dealers Featured In</h2>
+          <div className="featured-grid">
+            <div className="featured-card">
+              <div className="magazine-cover">
+                <img 
+                  src="/adviting2online.png" 
+                  alt="Nepal Luxury Magazine"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/adviting2online.png";
+                  }}
+                />
+              </div>
+              <div className="featured-content">
+                <h3>Nepal Luxury Magazine</h3>
+                <p>
+                  Discover the story behind HK Dealers, our mission to bring authentic 
+                  luxury timepieces to Nepal, and our vision for the future of 
+                  horology in the region.
+                </p>
+                <a 
+                  href="#" 
+                  className="read-more-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Read the Full Article →
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          style={{
-            background: "#1a1a1a",
-            color: "white",
-            padding: "2rem",
-            borderRadius: "8px",
-            textAlign: "center"
-          }}
-        >
-          <h2 style={{ marginBottom: "1rem", color: "#d4af37" }}>
-            {" "}
-            Visit Our Showroom{" "}
-          </h2>{" "}
-          <p style={{ lineHeight: "1.8", marginBottom: "1.5rem" }}>
-            Experience our collection in person at our luxury showroom in
-            Kathmandu.Schedule an appointment for personalized service.{" "}
-          </p>{" "}
-          <a
-            href="/contact"
-            className="btn btn-primary"
-            style={{ display: "inline-block" }}
-          >
-            Contact Us{" "}
-          </a>{" "}
-        </div>{" "}
-      </div>{" "}
+      </section>
+
+      {/* Values Section */}
+      <section className="values-section">
+        <div className="container">
+          <h2 className="section-title text-center">What Sets Us Apart</h2>
+          <div className="values-grid">
+            <div className="value-card">
+              <div className="value-icon">🔍</div>
+              <h3>Authenticity Guaranteed</h3>
+              <p>
+                Every watch comes with a certificate of authenticity and has been 
+                thoroughly inspected by our expert horologists. 100% genuine luxury 
+                timepieces, guaranteed.
+              </p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon">👨‍💼</div>
+              <h3>Expert Knowledge</h3>
+              <p>
+                Our team consists of certified watch specialists with decades of 
+                combined experience in luxury horology, ready to guide you through 
+                your purchase.
+              </p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon">🔧</div>
+              <h3>Complete Service</h3>
+              <p>
+                From purchase to after-sales support, we provide comprehensive 
+                service including warranty coverage, maintenance, and trade-in options.
+              </p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon">🌍</div>
+              <h3>Free Worldwide Shipping</h3>
+              <p>
+                Enjoy free insured shipping on all orders, with careful packaging 
+                and tracking provided for your peace of mind.
+              </p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon">⭐</div>
+              <h3>2-Year Warranty</h3>
+              <p>
+                All our timepieces come with a comprehensive 2-year warranty, 
+                ensuring your investment is protected.
+              </p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon">🤝</div>
+              <h3>Trade-In Services</h3>
+              <p>
+                Looking to upgrade your collection? We offer competitive trade-in 
+                values for your pre-owned luxury watches.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partner Section */}
+      <section className="partner-section">
+        <div className="container">
+          <div className="partner-content">
+            <h2 className="section-title">Partnered With</h2>
+            <p className="partner-text">
+              We are proud to be partnered with Nepal's leading luxury organizations, 
+              working together to advance horological excellence in the region.
+            </p>
+            <div className="partner-logos">
+              <div className="partner-logo">
+                <img 
+                  src="/third-bannerimage.jpg" 
+                  alt="Partner Organization"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/images/third-bannerimage.jpg";
+                  }}
+                />
+              </div>
+            </div>
+            <a 
+              href="#" 
+              className="partner-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              Visit Our Partner →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="container">
+          <div className="cta-content">
+            <h2 className="cta-title">Join Our Community</h2>
+            <p className="cta-text">
+              Be part of Nepal's growing luxury watch community. Whether you're a 
+              seasoned collector or starting your journey, we're here to help you 
+              find the perfect timepiece.
+            </p>
+            <div className="cta-buttons">
+              <Link to="/products" className="btn btn-primary btn-large">
+                Explore Collection
+              </Link>
+              <Link to="/contact" className="btn btn-outline btn-large">
+                Visit Our Showroom
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

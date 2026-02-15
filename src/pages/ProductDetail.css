@@ -196,6 +196,13 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+/* Buy Now Button - Active state */
+.buy-now-btn.active {
+  background: #c19a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+}
+
 .add-to-cart-btn {
   background: #d4af37;
   color: #1a1a1a;
@@ -268,9 +275,50 @@
   background: white;
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto;
+  border: 2px solid #d4af37;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Header */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.form-header h2 {
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.close-form-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s;
+  padding: 0 0.5rem;
+}
+
+.close-form-btn:hover {
+  color: #d4af37;
 }
 
 .order-form-section h2 {
@@ -417,6 +465,11 @@
 
   .order-form-section {
     padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.3rem;
   }
 }
 

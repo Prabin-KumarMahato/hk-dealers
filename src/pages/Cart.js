@@ -1,13 +1,16 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import "./Cart.css"; // Create this CSS file
 
 const Cart = () => {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+  const [showOrderForm, setShowOrderForm] = useState(false);
   const [form, setForm] = useState({
     name: "",
+    address: "",
+    mobile: "",
     email: "",
-    phone: "",
     message: ""
   });
 
@@ -17,40 +20,63 @@ const Cart = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const sendCartEmail = (e) => {
+  const handleBuyNowClick = () => {
+    setShowOrderForm(true);
+    // Scroll to form smoothly
+    setTimeout(() => {
+      document.querySelector('.order-form-section')?.scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }, 100);
+  };
+
+  const closeForm = () => {
+    setShowOrderForm(false);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const productList = cartItems
       .map((item, index) => `${index + 1}. ${item.brand} ${item.model}
-   Price: HKD ${item.price.toLocaleString()}
+   Price: Rs. ${item.price.toLocaleString()}
    Condition: ${item.condition}`)
       .join("\n\n");
 
-    const emailSubject = `Cart Order Inquiry - ${cartItems.length} Watch${cartItems.length > 1 ? 'es' : ''}`;
+    const emailSubject = `New Order - ${cartItems.length} Item${cartItems.length > 1 ? 's' : ''}`;
     const emailBody = `
-CUSTOMER INFORMATION:
-Name: ${form.name}
+CUSTOMER DETAILS:
+----------------
+Full Name: ${form.name}
+Address: ${form.address}
+Mobile Number: ${form.mobile}
 Email: ${form.email}
-Phone: ${form.phone}
 
-PRODUCTS IN CART (${cartItems.length} item${cartItems.length > 1 ? 's' : ''}):
-
+ORDER DETAILS:
+--------------
 ${productList}
 
-TOTAL VALUE: HKD ${totalPrice.toLocaleString()}
+TOTAL AMOUNT: Rs. ${totalPrice.toLocaleString()}
 
 CUSTOMER MESSAGE:
+----------------
 ${form.message || "No additional message"}
 
+DELIVERY PREFERENCE:
+-------------------
+Standard Delivery Available
+Cash on Delivery Available
+
 ---
-This is a multiple product inquiry from WatchHK website.
+This order is from Watch Nepal website.
     `.trim();
 
-    window.location.href = `mailto:admin@watchhk.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    window.location.href = `mailto:admin@watchnepal.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Reset form after submission
-    setForm({ name: "", email: "", phone: "", message: "" });
-    alert("Email client opened! Please send the email to complete your inquiry.");
+    setForm({ name: "", address: "", mobile: "", email: "", message: "" });
+    setShowOrderForm(false);
+    alert("Email client opened! Please send the email to complete your order.");
   };
 
   if (cartItems.length === 0) {
@@ -68,289 +94,196 @@ This is a multiple product inquiry from WatchHK website.
   }
 
   return (
-    <div className="container" style={{ paddingTop: "2rem", paddingBottom: "3rem" }}>
-      <h1 style={{ marginBottom: "2rem" }}>Your Shopping Cart</h1>
+    <div className="cart-container">
+      <div className="container">
+        <h1 className="cart-title">Your Shopping Cart</h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "2rem" }}>
-        <div>
-          <div style={{
-            background: "white",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            padding: "1.5rem"
-          }}>
-            <h3 style={{ marginBottom: "1.5rem", paddingBottom: "1rem", borderBottom: "2px solid #f0f0f0" }}>
-              Cart Items ({cartItems.length})
-            </h3>
+        <div className="cart-grid">
+          {/* Left Column - Cart Items */}
+          <div className="cart-items-section">
+            <div className="cart-items-card">
+              <div className="cart-items-header">
+                <h3>Cart Items ({cartItems.length})</h3>
+              </div>
 
-            {cartItems.map((item) => (
-              <div
-                key={item.id}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "120px 1fr auto",
-                  gap: "1.5rem",
-                  padding: "1.5rem 0",
-                  borderBottom: "1px solid #f0f0f0"
-                }}
-              >
-                <img
-                  src={item.image}
-                  alt={`${item.brand} ${item.model}`}
-                  style={{
-                    width: "100%",
-                    height: "120px",
-                    objectFit: "cover",
-                    borderRadius: "6px"
-                  }}
-                />
+              {cartItems.map((item) => (
+                <div key={item.id} className="cart-item">
+                  <img
+                    src={item.image}
+                    alt={`${item.brand} ${item.model}`}
+                    className="cart-item-image"
+                  />
 
-                <div>
-                  <div style={{ color: "#999", fontSize: "0.85rem", marginBottom: "0.25rem" }}>
-                    {item.brand}
+                  <div className="cart-item-details">
+                    <div className="cart-item-brand">{item.brand}</div>
+                    <h4 className="cart-item-name">{item.model}</h4>
+                    <div className={`cart-item-condition ${item.condition === "New" ? "condition-new" : "condition-used"}`}>
+                      {item.condition}
+                    </div>
+                    <div className="cart-item-price">Rs. {item.price.toLocaleString()}</div>
                   </div>
-                  <h4 style={{ marginBottom: "0.5rem", fontSize: "1.1rem" }}>{item.model}</h4>
-                  <div style={{
-                    display: "inline-block",
-                    padding: "0.25rem 0.75rem",
-                    background: item.condition === "New" ? "#e8f5e9" : "#fff3e0",
-                    color: item.condition === "New" ? "#2e7d32" : "#e65100",
-                    borderRadius: "4px",
-                    fontSize: "0.8rem",
-                    fontWeight: "600",
-                    marginBottom: "0.5rem"
-                  }}>
-                    {item.condition}
-                  </div>
-                  <div style={{ fontWeight: "bold", color: "#d4af37", fontSize: "1.2rem" }}>
-                    HKD {item.price.toLocaleString()}
+
+                  <div className="cart-item-actions">
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="remove-btn"
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
-
-                <div style={{ textAlign: "right" }}>
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    style={{
-                      background: "#ff4444",
-                      color: "white",
-                      border: "none",
-                      padding: "0.5rem 1rem",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      fontSize: "0.9rem",
-                      fontWeight: "600"
-                    }}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <div style={{ marginTop: "1.5rem", textAlign: "right" }}>
-              <button
-                onClick={clearCart}
-                style={{
-                  background: "transparent",
-                  color: "#666",
-                  border: "1px solid #ddd",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  fontSize: "0.9rem"
-                }}
-              >
-                Clear Cart
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div style={{
-            background: "white",
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            padding: "1.5rem",
-            position: "sticky",
-            top: "2rem"
-          }}>
-            <h3 style={{ marginBottom: "1.5rem" }}>Order Summary</h3>
-            
-            <div style={{ marginBottom: "1rem", paddingBottom: "1rem", borderBottom: "1px solid #f0f0f0" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                <span style={{ color: "#666" }}>Items:</span>
-                <span>{cartItems.length}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                <span style={{ color: "#666" }}>Subtotal:</span>
-                <span>HKD {totalPrice.toLocaleString()}</span>
-              </div>
-            </div>
-
-            <div style={{ 
-              display: "flex", 
-              justifyContent: "space-between", 
-              fontSize: "1.3rem",
-              fontWeight: "bold",
-              marginBottom: "1.5rem",
-              paddingTop: "1rem"
-            }}>
-              <span>Total:</span>
-              <span style={{ color: "#d4af37" }}>HKD {totalPrice.toLocaleString()}</span>
-            </div>
-
-            <div style={{
-              background: "#f9f9f9",
-              padding: "1rem",
-              borderRadius: "4px",
-              marginBottom: "1rem",
-              fontSize: "0.85rem",
-              color: "#666"
-            }}>
-              <ul style={{ margin: 0, paddingLeft: "1.2rem" }}>
-                <li>Free worldwide shipping</li>
-                <li>2-year warranty included</li>
-                <li>Authentic guarantee</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style={{
-        background: "white",
-        padding: "2.5rem",
-        borderRadius: "8px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        marginTop: "3rem",
-        maxWidth: "800px",
-        margin: "3rem auto 0"
-      }}>
-        <h2 style={{ marginBottom: "0.5rem", textAlign: "center" }}>Send Cart Inquiry</h2>
-        <p style={{ textAlign: "center", color: "#666", marginBottom: "2rem" }}>
-          Ready to proceed? Fill out the form below and we'll contact you about your selected watches.
-        </p>
-
-        <form onSubmit={sendCartEmail}>
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600" }}>
-              Full Name *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Enter your full name"
-              required
-              style={{
-                width: "100%",
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem"
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600" }}>
-              Email Address *
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="your.email@example.com"
-              required
-              style={{
-                width: "100%",
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem"
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600" }}>
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              placeholder="+852 1234 5678"
-              style={{
-                width: "100%",
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem"
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600" }}>
-              Additional Message
-            </label>
-            <textarea
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              placeholder="Any specific questions or requirements?"
-              rows="4"
-              style={{
-                width: "100%",
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem",
-                resize: "vertical"
-              }}
-            />
-          </div>
-
-          <div style={{
-            background: "#f9f9f9",
-            padding: "1rem",
-            borderRadius: "4px",
-            marginBottom: "1.5rem"
-          }}>
-            <strong style={{ display: "block", marginBottom: "0.5rem" }}>Selected Watches:</strong>
-            <ul style={{ margin: 0, paddingLeft: "1.5rem", fontSize: "0.9rem", color: "#666" }}>
-              {cartItems.map((item, index) => (
-                <li key={item.id} style={{ marginBottom: "0.25rem" }}>
-                  {item.brand} {item.model} - HKD {item.price.toLocaleString()}
-                </li>
               ))}
-            </ul>
-            <div style={{ marginTop: "0.75rem", fontWeight: "bold", fontSize: "1.05rem" }}>
-              Total: HKD {totalPrice.toLocaleString()}
+
+              <div className="cart-footer">
+                <button
+                  onClick={clearCart}
+                  className="clear-cart-btn"
+                >
+                  Clear Cart
+                </button>
+              </div>
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{
-              width: "100%",
-              padding: "1rem",
-              fontSize: "1.1rem"
-            }}
-          >
-            Send Cart Inquiry via Email
-          </button>
+          {/* Right Column - Order Summary */}
+          <div className="order-summary-section">
+            <div className="order-summary-card">
+              <h3>Order Summary</h3>
+              
+              <div className="summary-details">
+                <div className="summary-row">
+                  <span>Items:</span>
+                  <span>{cartItems.length}</span>
+                </div>
+                <div className="summary-row">
+                  <span>Subtotal:</span>
+                  <span>Rs. {totalPrice.toLocaleString()}</span>
+                </div>
+              </div>
 
-          <p style={{ textAlign: "center", marginTop: "1rem", fontSize: "0.85rem", color: "#999" }}>
-            * Required fields
-          </p>
-        </form>
+              <div className="summary-total">
+                <span>Total:</span>
+                <span className="total-amount">Rs. {totalPrice.toLocaleString()}</span>
+              </div>
+
+              <button 
+                className="buy-now-btn"
+                onClick={handleBuyNowClick}
+              >
+                Buy Now
+              </button>
+
+              <div className="summary-features">
+                <ul>
+                  <li>Free worldwide shipping</li>
+                  <li>2-year warranty included</li>
+                  <li>Authentic guarantee</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Order Form - Shows when Buy Now is clicked */}
+        {showOrderForm && (
+          <div className="order-form-section">
+            <div className="form-header">
+              <h2>Complete Your Purchase</h2>
+              <button className="close-form-btn" onClick={closeForm}>×</button>
+            </div>
+            <p className="form-subtitle">
+              Fill in your details to complete the order for {cartItems.length} item{cartItems.length > 1 ? 's' : ''}
+            </p>
+
+            <form onSubmit={handleSubmit} className="order-form">
+              <div className="form-group">
+                <label htmlFor="name">Full Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="address">Delivery Address *</label>
+                <textarea
+                  id="address"
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Street address, city, district"
+                  rows="3"
+                  required
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="mobile">Mobile Number *</label>
+                  <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    value={form.mobile}
+                    onChange={handleChange}
+                    placeholder="98XXXXXXXX"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">Additional Message (Optional)</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  placeholder="Any special instructions or requests..."
+                  rows="4"
+                />
+              </div>
+
+              <div className="order-summary-box">
+                <h4>Order Summary</h4>
+                {cartItems.map((item, index) => (
+                  <div key={item.id} className="summary-item">
+                    <span>{item.brand} {item.model} x 1</span>
+                    <span>Rs. {item.price.toLocaleString()}</span>
+                  </div>
+                ))}
+                <div className="summary-item total">
+                  <span>Total Amount:</span>
+                  <span>Rs. {totalPrice.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <button type="submit" className="submit-order-btn">
+                Submit Order
+              </button>
+
+              <p className="form-note">* Required fields</p>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

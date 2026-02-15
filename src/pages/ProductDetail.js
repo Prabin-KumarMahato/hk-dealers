@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import watches from "../data/watches";
 import { CartContext } from "../context/CartContext";
-import "./ProductDetail.css"; // You'll need to create this CSS file
+import "./ProductDetail.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const product = watches.find((w) => w.id === Number(id));
   const { addToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
+  const [showOrderForm, setShowOrderForm] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -76,11 +77,26 @@ This order is from Watch Nepal website.
     // Reset form after submission
     setForm({ name: "", address: "", mobile: "", email: "", message: "" });
     setQuantity(1);
+    setShowOrderForm(false);
     alert("Email client opened! Please send the email to complete your order.");
   };
 
+  const handleBuyNowClick = () => {
+    setShowOrderForm(true);
+    // Scroll to form smoothly
+    setTimeout(() => {
+      document.querySelector('.order-form-section')?.scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }, 100);
+  };
+
+  const closeForm = () => {
+    setShowOrderForm(false);
+  };
+
   // Calculate discounted price (if you have original price)
-  const originalPrice = product.price * 1.55; // Example: if current is 55% off
+  const originalPrice = product.price * 1.55;
   const discount = Math.round(((originalPrice - product.price) / originalPrice) * 100);
 
   return (
@@ -106,12 +122,6 @@ This order is from Watch Nepal website.
             <div className="product-brand">{product.brand}</div>
             <h1 className="product-title">{product.model}</h1>
             
-            {/* Ratings */}
-            <div className="product-ratings">
-             
-              
-            </div>
-
             {/* Brand Info */}
             <div className="brand-info">
               Brand: No Brand | More Computer Components from No Brand
@@ -154,7 +164,12 @@ This order is from Watch Nepal website.
 
             {/* Action Buttons */}
             <div className="action-buttons">
-              <button className="buy-now-btn">Buy Now</button>
+              <button 
+                className="buy-now-btn"
+                onClick={handleBuyNowClick}
+              >
+                Buy Now
+              </button>
               <button 
                 onClick={() => addToCart(product)}
                 className="add-to-cart-btn"
@@ -199,105 +214,110 @@ This order is from Watch Nepal website.
           </div>
         </div>
 
-        {/* Order Form */}
-        <div className="order-form-section">
-          <h2>Place Your Order</h2>
-          <p className="form-subtitle">Fill in your details to complete the purchase</p>
-
-          <form onSubmit={handleSubmit} className="order-form">
-            <div className="form-group">
-              <label htmlFor="name">Full Name *</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                required
-              />
+        {/* Order Form - Conditionally rendered */}
+        {showOrderForm && (
+          <div className="order-form-section">
+            <div className="form-header">
+              <h2>Complete Your Purchase</h2>
+              <button className="close-form-btn" onClick={closeForm}>×</button>
             </div>
+            <p className="form-subtitle">Fill in your details to complete the order for {product.brand} {product.model}</p>
 
-            <div className="form-group">
-              <label htmlFor="address">Delivery Address *</label>
-              <textarea
-                id="address"
-                name="address"
-                value={form.address}
-                onChange={handleChange}
-                placeholder="Street address, city, district"
-                rows="3"
-                required
-              />
-            </div>
-
-            <div className="form-row">
+            <form onSubmit={handleSubmit} className="order-form">
               <div className="form-group">
-                <label htmlFor="mobile">Mobile Number *</label>
+                <label htmlFor="name">Full Name *</label>
                 <input
-                  type="tel"
-                  id="mobile"
-                  name="mobile"
-                  value={form.mobile}
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={form.name}
                   onChange={handleChange}
-                  placeholder="98XXXXXXXX"
+                  placeholder="Enter your full name"
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="email">Email Address *</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={form.email}
+                <label htmlFor="address">Delivery Address *</label>
+                <textarea
+                  id="address"
+                  name="address"
+                  value={form.address}
                   onChange={handleChange}
-                  placeholder="your@email.com"
+                  placeholder="Street address, city, district"
+                  rows="3"
                   required
                 />
               </div>
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="message">Additional Message (Optional)</label>
-              <textarea
-                id="message"
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                placeholder="Any special instructions or requests..."
-                rows="4"
-              />
-            </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="mobile">Mobile Number *</label>
+                  <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    value={form.mobile}
+                    onChange={handleChange}
+                    placeholder="98XXXXXXXX"
+                    required
+                  />
+                </div>
 
-            <div className="order-summary">
-              <h3>Order Summary</h3>
-              <div className="summary-item">
-                <span>Product:</span>
-                <span>{product.brand} {product.model}</span>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
               </div>
-              <div className="summary-item">
-                <span>Quantity:</span>
-                <span>{quantity}</span>
-              </div>
-              <div className="summary-item">
-                <span>Unit Price:</span>
-                <span>Rs. {product.price}</span>
-              </div>
-              <div className="summary-item total">
-                <span>Total Amount:</span>
-                <span>Rs. {product.price * quantity}</span>
-              </div>
-            </div>
 
-            <button type="submit" className="submit-order-btn">
-              Submit Order
-            </button>
+              <div className="form-group">
+                <label htmlFor="message">Additional Message (Optional)</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  placeholder="Any special instructions or requests..."
+                  rows="4"
+                />
+              </div>
 
-            <p className="form-note">* Required fields</p>
-          </form>
-        </div>
+              <div className="order-summary">
+                <h3>Order Summary</h3>
+                <div className="summary-item">
+                  <span>Product:</span>
+                  <span>{product.brand} {product.model}</span>
+                </div>
+                <div className="summary-item">
+                  <span>Quantity:</span>
+                  <span>{quantity}</span>
+                </div>
+                <div className="summary-item">
+                  <span>Unit Price:</span>
+                  <span>Rs. {product.price}</span>
+                </div>
+                <div className="summary-item total">
+                  <span>Total Amount:</span>
+                  <span>Rs. {product.price * quantity}</span>
+                </div>
+              </div>
+
+              <button type="submit" className="submit-order-btn">
+                Submit Order
+              </button>
+
+              <p className="form-note">* Required fields</p>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
