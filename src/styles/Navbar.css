@@ -144,6 +144,42 @@
   border: 2px solid #1a1a1a;
 }
 
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.menu-bars,
+.menu-bars::before,
+.menu-bars::after {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  position: relative;
+}
+
+.menu-bars::before,
+.menu-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.menu-bars::before {
+  top: -8px;
+}
+.menu-bars::after {
+  top: 8px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 968px) {
   .navbar .nav-links {
@@ -164,7 +200,7 @@
 
 @media (max-width: 768px) {
   .navbar .nav-container {
-    flex-direction: row; /* Keep logo left, links right */
+    flex-direction: row; /* Keep logo left, toggle right */
     height: auto;
     gap: 0.8rem;
     padding: 0.8rem 0;
@@ -178,17 +214,49 @@
     height: 45px;
   }
 
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Collapse nav links by default on mobile with slide-in animation */
   .navbar .nav-links {
-    flex-wrap: wrap; /* Allow wrapping if space is tight */
-    gap: 0.8rem;
-    justify-content: flex-end; /* Maintain right alignment */
+    display: flex; /* allow transition */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: #1a1a1a;
+    padding: 0.75rem;
+    border-bottom-left-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     width: 100%;
-    margin-left: auto;
+    gap: 0.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .navbar .nav-links.open {
+    max-height: 400px; /* enough for items */
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
   }
 
   .navbar .nav-link {
     font-size: 1.1rem; /* Good size on mobile */
-    padding: 0.5rem 0.8rem;
+    padding: 0.6rem 0.8rem;
+    width: 100%;
   }
 
   .navbar .logo-text {

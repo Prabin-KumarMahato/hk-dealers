@@ -168,7 +168,7 @@ const ProductDetail = () => {
               </button>
 
               <button
-                onClick={() => addToCart(product)}
+                onClick={() => addToCart(product,quantity)}
                 className="add-to-cart-btn"
               >
                 Add to Cart

@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
   const { cartItems } = useContext(CartContext);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <nav className="navbar">
@@ -14,29 +18,38 @@ const Navbar = () => {
             <img src="/logo.png" alt="WatchHK Logo" className="logo-img" />
           </Link>
 
-          <ul className="nav-links">
+          <button
+            className="menu-toggle"
+            aria-label="Toggle navigation"
+            aria-expanded={menuOpen}
+            onClick={toggleMenu}
+          >
+            <span className="menu-bars" />
+          </button>
+
+          <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
             <li>
-              <Link to="/" className="nav-link">
+              <Link to="/" className="nav-link" onClick={closeMenu}>
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/products" className="nav-link">
+              <Link to="/products" className="nav-link" onClick={closeMenu}>
                 Products
               </Link>
             </li>
             <li>
-              <Link to="/about" className="nav-link">
+              <Link to="/about" className="nav-link" onClick={closeMenu}>
                 About
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="nav-link">
+              <Link to="/contact" className="nav-link" onClick={closeMenu}>
                 Contact
               </Link>
             </li>
             <li className="cart-icon">
-              <Link to="/cart" className="nav-link">
+              <Link to="/cart" className="nav-link" onClick={closeMenu}>
                 Cart
                 {cartItems.length > 0 && (
                   <span className="cart-count">{cartItems.length}</span>

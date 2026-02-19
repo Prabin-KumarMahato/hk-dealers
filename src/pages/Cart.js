@@ -18,8 +18,8 @@ const Cart = () => {
     message: ""
   });
 
-  const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
-
+  const totalPrice = cartItems.reduce(
+  (sum, item) => sum + item.price * item.quantity, 0);
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -44,11 +44,14 @@ const Cart = () => {
     setLoading(true);
 
     const productList = cartItems
-      .map(
-        (item, index) =>
-          `${index + 1}. ${item.brand} ${item.model} - Rs. ${item.price}`
-      )
-      .join("\n");
+  .map(
+    (item, index) =>
+      `${index + 1}. ${item.brand} ${item.model}
+Qty: ${item.quantity}
+Price: Rs. ${item.price}
+Subtotal: Rs. ${item.price * item.quantity}`
+  )
+  .join("\n\n");
 
     const templateParams = {
       name: form.name,
@@ -124,28 +127,36 @@ const Cart = () => {
               <h3>Cart Items ({cartItems.length})</h3>
 
               {cartItems.map((item) => (
-                <div key={item.id} className="cart-item">
+  <div key={item.id} className="cart-item">
 
-                  <img
-                    src={item.image}
-                    alt={item.model}
-                    className="cart-item-image"
-                  />
+    <img
+      src={item.image}
+      alt={item.model}
+      className="cart-item-image"
+    />
 
-                  <div className="cart-item-details">
-                    <h4>{item.brand} {item.model}</h4>
-                    <div>Rs. {item.price}</div>
-                  </div>
+    <div className="cart-item-details">
+      <h4>{item.brand} {item.model}</h4>
 
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="remove-btn"
-                  >
-                    Remove
-                  </button>
+      <div>Price: Rs. {item.price}</div>
 
-                </div>
-              ))}
+      <div>Qty: {item.quantity}</div>
+
+      <div>
+        Subtotal: Rs. {item.price * item.quantity}
+      </div>
+    </div>
+
+    <button
+      onClick={() => removeFromCart(item.id)}
+      className="remove-btn"
+    >
+      Remove
+    </button>
+
+  </div>
+))}
+
 
               <button onClick={clearCart} className="clear-cart-btn">
                 Clear Cart
@@ -160,8 +171,13 @@ const Cart = () => {
 
               <h3>Order Summary</h3>
 
-              <div>Total Items: {cartItems.length}</div>
-              <div>Total Price: Rs. {totalPrice}</div>
+              <div>Total Products: {cartItems.length}</div>
+
+<div>
+  Total Quantity: {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+</div>
+
+<div>Total Price: Rs. {totalPrice}</div>
 
               <button className="buy-now-btn" onClick={handleBuyNowClick}>
                 Buy Now

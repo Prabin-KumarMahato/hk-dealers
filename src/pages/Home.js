@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import WatchCard from "../components/WatchCard";
 import watches from "../data/watches";
 import BannerSlider from "../components/BannerSlider";
+import "./Home.css";
 
 const Home = () => {
   const [featuredWatches, setFeaturedWatches] = useState([]);
@@ -17,31 +18,10 @@ const Home = () => {
 
   return (
     <div>
-      <section
-        style={{
-          background: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
-          color: "white",
-          padding: "5rem 0",
-          textAlign: "center",
-        }}
-      >
+      <section className="banner-section">
         <div className="container">
           <BannerSlider />
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              marginBottom: "1rem",
-              fontWeight: "700",
-            }}
-          >
-            
-          
-          </h1>{" "}
-  
-          
-         
-          
-         
+          <h1 className="banner-heading"></h1>{" "}
           <Link
             to="/products"
             className="btn btn-primary"
@@ -55,35 +35,19 @@ const Home = () => {
         className="container"
         style={{ marginTop: "4rem", marginBottom: "3rem" }}
       >
-        <h2
-          style={{
-            textAlign: "center",
-            marginBottom: "2.5rem",
-            fontSize: "2.5rem",
-          }}
-        >
-          Trusted Brands{" "}
-        </h2>{" "}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "1.5rem",
-            marginBottom: "3rem",
-          
-          }}
-        >
+        <h2 className="section-title">Trusted Brands </h2>{" "}
+        <div className="brands-container">
           {" "}
           {[
             "ROLEX",
             "PATEK PHILIPPE",
             "AUDEMARS PIGUET",
             "OMEGA",
-            "CARTIER",
+            "CARTIER"
           ].map((brand) => (
             <div
               key={brand}
+              className="brand-item"
               style={{
                 padding: "1.25rem 2.5rem",
                 border: "2px solid #070000",
@@ -92,7 +56,7 @@ const Home = () => {
                 fontSize: "1.05rem",
                 letterSpacing: "1px",
                 transition: "all 0.3s ease",
-                cursor: "default",
+                cursor: "default"
               }}
             >
               {" "}
@@ -102,15 +66,7 @@ const Home = () => {
         </div>{" "}
       </section>{" "}
       <section className="container" style={{ marginBottom: "4rem" }}>
-        <h2
-          style={{
-            textAlign: "center",
-            marginBottom: "2.5rem",
-            fontSize: "2.5rem",
-          }}
-        >
-          Featured Timepieces{" "}
-        </h2>{" "}
+        <h2 className="section-title">Featured Timepieces </h2>{" "}
         {loading ? (
           <div className="spinner" />
         ) : (
@@ -136,7 +92,7 @@ const Home = () => {
           background: "#1a1a1a",
           color: "white",
           padding: "4rem 0",
-          marginTop: "3rem",
+          marginTop: "3rem"
         }}
       >
         <div className="container">
@@ -144,7 +100,7 @@ const Home = () => {
             style={{
               textAlign: "center",
               marginBottom: "3rem",
-              fontSize: "2.5rem",
+              fontSize: "2.5rem"
             }}
           >
             Why Choose Us{" "}
@@ -153,7 +109,7 @@ const Home = () => {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "3rem",
+              gap: "3rem"
             }}
           >
             <div style={{ textAlign: "center" }}>
@@ -162,7 +118,7 @@ const Home = () => {
                 style={{
                   color: "#d4af37",
                   marginBottom: "0.75rem",
-                  fontSize: "1.4rem",
+                  fontSize: "1.4rem"
                 }}
               >
                 100 % Authentic{" "}
@@ -178,7 +134,7 @@ const Home = () => {
                 style={{
                   color: "#d4af37",
                   marginBottom: "0.75rem",
-                  fontSize: "1.4rem",
+                  fontSize: "1.4rem"
                 }}
               >
                 2 - Year Warranty{" "}
@@ -194,7 +150,7 @@ const Home = () => {
                 style={{
                   color: "#d4af37",
                   marginBottom: "0.75rem",
-                  fontSize: "1.4rem",
+                  fontSize: "1.4rem"
                 }}
               >
                 Global Shipping{" "}
@@ -209,7 +165,7 @@ const Home = () => {
                 style={{
                   color: "#d4af37",
                   marginBottom: "0.75rem",
-                  fontSize: "1.4rem",
+                  fontSize: "1.4rem"
                 }}
               >
                 Trade - In Service{" "}
@@ -234,7 +190,7 @@ const Home = () => {
               color: "#666",
               marginBottom: "2rem",
               fontSize: "1.1rem",
-              lineHeight: "1.8",
+              lineHeight: "1.8"
             }}
           >
             Browse our exclusive collection or contact us for personalized
@@ -245,7 +201,7 @@ const Home = () => {
               display: "flex",
               gap: "1rem",
               justifyContent: "center",
-              flexWrap: "wrap",
+              flexWrap: "wrap"
             }}
           >
             <Link
