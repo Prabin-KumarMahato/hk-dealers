@@ -36,7 +36,7 @@ const Home = () => {
         style={{ marginTop: "4rem", marginBottom: "3rem" }}
       >
         <h2 className="section-title">Trusted Brands </h2>
-        <div className="brands-container">
+        <div className="brands-container scrollable">
           {[
             "ROLEX",
             "PATEK PHILIPPE",

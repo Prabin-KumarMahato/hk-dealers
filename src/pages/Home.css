@@ -21,6 +21,19 @@
   margin-bottom: 3rem;
 }
 
+/* Make brands horizontally scrollable on small screens */
+.brands-container.scrollable {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+}
+
+.brands-container.scrollable .brand-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
 .brands-slider-wrapper {
   margin-bottom: 3rem;
   padding: 0 20px;
@@ -115,6 +128,31 @@
     letter-spacing: 0.5px !important;
   }
 
+  /* Enable horizontal sliding for brands on mobile */
+  .brands-container {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+
+  .brands-container.scrollable {
+    padding-left: 12px;
+  }
+
+  /* Make featured watches slide horizontally on mobile */
+  .products-grid {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding: 1rem 8px;
+  }
+
+  .products-grid .product-card {
+    min-width: 240px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
   .slick-prev {
     left: -5px;
   }
@@ -141,5 +179,10 @@
 
   .slick-dots {
     bottom: -35px;
+  }
+
+  /* Make banner heading a bit smaller on very small screens */
+  .banner-heading {
+    font-size: 1.4rem;
   }
 }
