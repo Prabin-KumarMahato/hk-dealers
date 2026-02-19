@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "../styles/BannerSlider.css";
 
 const BannerSlider = () => {
@@ -7,18 +6,12 @@ const BannerSlider = () => {
 
   const slides = [
     {
-      // title: "Luxury Timepieces",
-      // subtitle: "Nepal's Premier Watch Dealer",
       image: "/first-bannerimage.png"
     },
     {
-      // title: "Authentic Watches",
-      // subtitle: "100% Verified & Certified",
       image: "/second-bannerimage.jpg"
     },
     {
-      // title: "Expert Service",
-      // subtitle: "Professional Guidance & Support",
       image: "/third-bannerimage.jpg"
     }
   ];

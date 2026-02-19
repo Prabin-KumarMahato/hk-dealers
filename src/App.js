@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
@@ -9,7 +8,6 @@ import Cart from "./pages/Cart";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import { CartProvider } from "./context/CartContext";
-import BannerSlider from "./components/BannerSlider";
 
 function App() {
   return (

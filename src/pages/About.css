@@ -47,7 +47,7 @@
 }
 
 .hero-title .highlight::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
@@ -93,7 +93,7 @@
 }
 
 .section-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 0;
@@ -147,7 +147,7 @@
   width: 100%;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
@@ -173,7 +173,7 @@
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
@@ -212,6 +212,12 @@
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
 }
 
 .read-more-link:hover {
@@ -243,7 +249,7 @@
 .value-card:hover {
   transform: translateY(-10px);
   border-color: #d4af37;
-  box-shadow: 0 10px 30px rgba(212,175,55,0.1);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
 }
 
 .value-icon {
@@ -316,6 +322,11 @@
   font-size: 1.1rem;
   font-weight: 600;
   transition: color 0.3s;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .partner-link:hover {
@@ -408,28 +419,28 @@
   .hero-title {
     font-size: 2.8rem;
   }
-  
+
   .mission-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .stats-container {
     justify-content: center;
   }
-  
+
   .featured-card {
     grid-template-columns: 1fr;
   }
-  
+
   .featured-content {
     padding: 2rem;
   }
-  
+
   .featured-content {
     padding: 2rem;
   }
-  
+
   .magazine-cover img {
     height: 200px;
   }
@@ -439,35 +450,35 @@
   .hero-title {
     font-size: 2.2rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1rem;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
-  
+
   .stats-container {
     flex-direction: column;
     gap: 1.5rem;
     align-items: center;
     text-align: center;
   }
-  
+
   .values-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .cta-buttons {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .cta-title {
     font-size: 2rem;
   }
-  
+
   .cta-text {
     font-size: 1rem;
   }
@@ -477,11 +488,11 @@
   .hero-title {
     font-size: 1.8rem;
   }
-  
+
   .hero-subtitle {
     font-size: 0.95rem;
   }
-  
+
   .section-title {
     font-size: 1.6rem;
   }
