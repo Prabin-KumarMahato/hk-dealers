@@ -13,6 +13,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -24,9 +25,16 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="container" style={{ paddingTop: "3rem", textAlign: "center" }}>
+      <div
+        className="container"
+        style={{ paddingTop: "3rem", textAlign: "center" }}
+      >
         <h2>Product not found</h2>
-        <Link to="/products" className="btn btn-primary" style={{ marginTop: "1rem" }}>
+        <Link
+          to="/products"
+          className="btn btn-primary"
+          style={{ marginTop: "1rem" }}
+        >
           Back to Products
         </Link>
       </div>
@@ -65,7 +73,7 @@ const ProductDetail = () => {
         "1_0YGRViezqRkyJFD"
       )
       .then(() => {
-        alert("✅ Order sent successfully!");
+        setShowSuccessModal(true);
 
         setForm({
           name: "",
@@ -78,10 +86,15 @@ const ProductDetail = () => {
         setQuantity(1);
         setShowOrderForm(false);
         setLoading(false);
+
+        // Auto close modal after 4 seconds
+        setTimeout(() => {
+          setShowSuccessModal(false);
+        }, 4000);
       })
       .catch((error) => {
         console.error(error);
-        alert("❌ Failed to send order");
+        alert("❌ Failed to send order. Please try again.");
         setLoading(false);
       });
   };
@@ -100,18 +113,60 @@ const ProductDetail = () => {
   };
 
   const originalPrice = product.price * 1.55;
-  const discount = Math.round(((originalPrice - product.price) / originalPrice) * 100);
+  const discount = Math.round(
+    ((originalPrice - product.price) / originalPrice) * 100
+  );
 
   return (
     <div className="product-detail-container">
-      <div className="container">
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div
+          className="success-modal-overlay"
+          onClick={() => setShowSuccessModal(false)}
+        >
+          <div className="success-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="success-animation">
+              <div className="success-checkmark">
+                <div className="check-icon">
+                  <span className="icon-line line-tip"></span>
+                  <span className="icon-line line-long"></span>
+                  <div className="icon-circle"></div>
+                  <div className="icon-fix"></div>
+                </div>
+              </div>
+            </div>
+            <h2 className="success-title">Order Sent Successfully!</h2>
+            <p className="success-message">
+              Thank you for your order! We've received your request and will
+              contact you shortly to confirm the details.
+            </p>
+            <div className="success-details">
+              <div className="detail-item">
+                <span className="detail-icon">✓</span>
+                <span>Order confirmation sent to your email</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-icon">✓</span>
+                <span>We'll contact you within 2-4 hours</span>
+              </div>
+            </div>
+            <button
+              className="success-btn"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Got it, Thanks!
+            </button>
+          </div>
+        </div>
+      )}
 
+      <div className="container">
         <Link to="/products" className="back-link">
           ← Back to Products
         </Link>
 
         <div className="product-main">
-
           {/* Image */}
           <div className="product-image-section">
             <img
@@ -123,13 +178,14 @@ const ProductDetail = () => {
 
           {/* Info */}
           <div className="product-info-section">
-
             <div className="product-brand">{product.brand}</div>
             <h1 className="product-title">{product.model}</h1>
 
             <div className="price-section">
               <span className="current-price">Rs. {product.price}</span>
-              <span className="original-price">Rs. {Math.round(originalPrice)}</span>
+              <span className="original-price">
+                Rs. {Math.round(originalPrice)}
+              </span>
               <span className="discount">-{discount}%</span>
             </div>
 
@@ -168,20 +224,18 @@ const ProductDetail = () => {
               </button>
 
               <button
-                onClick={() => addToCart(product,quantity)}
+                onClick={() => addToCart(product, quantity)}
                 className="add-to-cart-btn"
               >
                 Add to Cart
               </button>
             </div>
-
           </div>
         </div>
 
         {/* ORDER FORM */}
         {showOrderForm && (
           <div className="order-form-section">
-
             <div className="form-header">
               <h2>Complete Your Purchase</h2>
               <button className="close-form-btn" onClick={closeForm}>
@@ -190,7 +244,6 @@ const ProductDetail = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="order-form">
-
               <input
                 type="text"
                 name="name"
@@ -233,14 +286,16 @@ const ProductDetail = () => {
                 onChange={handleChange}
               />
 
-              <button type="submit" className="submit-order-btn" disabled={loading}>
+              <button
+                type="submit"
+                className="submit-order-btn"
+                disabled={loading}
+              >
                 {loading ? "Sending..." : "Submit Order"}
               </button>
-
             </form>
           </div>
         )}
-
       </div>
     </div>
   );

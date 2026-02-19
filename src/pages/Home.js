@@ -3,17 +3,32 @@ import { Link } from "react-router-dom";
 import WatchCard from "../components/WatchCard";
 import watches from "../data/watches";
 import BannerSlider from "../components/BannerSlider";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./Home.css";
 
 const Home = () => {
   const [featuredWatches, setFeaturedWatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
       setFeaturedWatches(watches.slice(0, 3));
       setLoading(false);
     }, 500);
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   return (
@@ -36,45 +51,108 @@ const Home = () => {
         style={{ marginTop: "4rem", marginBottom: "3rem" }}
       >
         <h2 className="section-title">Trusted Brands </h2>{" "}
-        <div className="brands-container">
-          {" "}
-          {[
-            "ROLEX",
-            "PATEK PHILIPPE",
-            "AUDEMARS PIGUET",
-            "OMEGA",
-            "CARTIER"
-          ].map((brand) => (
-            <div
-              key={brand}
-              className="brand-item"
-              style={{
-                padding: "1.25rem 2.5rem",
-                border: "2px solid #070000",
-                borderRadius: "8px",
-                fontWeight: "700",
-                fontSize: "1.05rem",
-                letterSpacing: "1px",
-                transition: "all 0.3s ease",
-                cursor: "default"
+        {isMobile ? (
+          <div className="brands-slider-wrapper">
+            <Slider
+              {...{
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                arrows: true
               }}
             >
-              {" "}
-              {brand}{" "}
-            </div>
-          ))}{" "}
-        </div>{" "}
+              {[
+                "ROLEX",
+                "PATEK PHILIPPE",
+                "AUDEMARS PIGUET",
+                "OMEGA",
+                "CARTIER"
+              ].map((brand) => (
+                <div key={brand} className="brand-slide">
+                  <div
+                    className="brand-item"
+                    style={{
+                      padding: "1.25rem 2.5rem",
+                      border: "2px solid #070000",
+                      borderRadius: "8px",
+                      fontWeight: "700",
+                      fontSize: "1.05rem",
+                      letterSpacing: "1px",
+                      transition: "all 0.3s ease",
+                      cursor: "default",
+                      margin: "0 10px",
+                      textAlign: "center"
+                    }}
+                  >
+                    {brand}
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
+        ) : (
+          <div className="brands-container">
+            {[
+              "ROLEX",
+              "PATEK PHILIPPE",
+              "AUDEMARS PIGUET",
+              "OMEGA",
+              "CARTIER"
+            ].map((brand) => (
+              <div
+                key={brand}
+                className="brand-item"
+                style={{
+                  padding: "1.25rem 2.5rem",
+                  border: "2px solid #070000",
+                  borderRadius: "8px",
+                  fontWeight: "700",
+                  fontSize: "1.05rem",
+                  letterSpacing: "1px",
+                  transition: "all 0.3s ease",
+                  cursor: "default"
+                }}
+              >
+                {brand}
+              </div>
+            ))}
+          </div>
+        )}{" "}
       </section>{" "}
       <section className="container" style={{ marginBottom: "4rem" }}>
         <h2 className="section-title">Featured Timepieces </h2>{" "}
         {loading ? (
           <div className="spinner" />
+        ) : isMobile ? (
+          <div className="featured-watches-slider">
+            <Slider
+              {...{
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 4000,
+                arrows: true
+              }}
+            >
+              {featuredWatches.map((watch) => (
+                <div key={watch.id} className="watch-slide">
+                  <WatchCard watch={watch} />
+                </div>
+              ))}
+            </Slider>
+          </div>
         ) : (
           <div className="products-grid">
-            {" "}
             {featuredWatches.map((watch) => (
               <WatchCard key={watch.id} watch={watch} />
-            ))}{" "}
+            ))}
           </div>
         )}{" "}
         <div style={{ textAlign: "center", marginTop: "2.5rem" }}>

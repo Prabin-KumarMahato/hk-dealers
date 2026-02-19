@@ -21,11 +21,72 @@
   margin-bottom: 3rem;
 }
 
+.brands-slider-wrapper {
+  margin-bottom: 3rem;
+  padding: 0 20px;
+}
+
+.brand-slide {
+  padding: 0 10px;
+}
+
+.brand-item {
+  text-align: center;
+}
+
+.brand-item:hover {
+  transform: translateY(-5px);
+  border-color: #d4af37 !important;
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Featured Watches Slider */
+.featured-watches-slider {
+  padding: 0 20px;
+}
+
+.watch-slide {
+  padding: 0 10px;
+}
+
 /* Trusted Brands & Featured Timepieces Headings */
 .section-title {
   text-align: center;
   margin-bottom: 2.5rem;
   font-size: 2.5rem;
+}
+
+/* Slick Slider Custom Styling */
+.slick-dots {
+  bottom: -40px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #d4af37;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #d4af37;
+}
+
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+.slick-prev {
+  left: -10px;
+}
+
+.slick-next {
+  right: -10px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #333;
+  font-size: 30px;
 }
 
 @media (max-width: 768px) {
@@ -43,40 +104,42 @@
     margin-bottom: 1.5rem;
   }
 
-  .brands-container {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 0.75rem;
-    scrollbehavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    gap: 1rem;
-  }
-
-  .brands-container::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  .brands-container::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border-radius: 10px;
-  }
-
-  .brands-container::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 10px;
+  .brands-slider-wrapper,
+  .featured-watches-slider {
+    padding: 0 10px;
   }
 
   .brand-item {
-    flex-shrink: 0;
-    min-width: 140px;
-    padding: 0.8rem 1.5rem !important;
-    font-size: 0.85rem !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 0.9rem !important;
     letter-spacing: 0.5px !important;
+  }
+
+  .slick-prev {
+    left: -5px;
+  }
+
+  .slick-next {
+    right: -5px;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 24px;
   }
 }
 
-@media (min-width: 769px) {
+@media (max-width: 480px) {
   .brand-item {
-    flex: 1;
+    padding: 0.8rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .slick-dots {
+    bottom: -35px;
   }
 }

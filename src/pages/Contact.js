@@ -3,7 +3,6 @@ import emailjs from "@emailjs/browser";
 import "./Contact.css";
 
 const Contact = () => {
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -12,6 +11,7 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -40,7 +40,7 @@ const Contact = () => {
         "1_0YGRViezqRkyJFD"
       )
       .then(() => {
-        alert("✅ Message sent successfully!");
+        setShowSuccessModal(true);
 
         setForm({
           name: "",
@@ -50,30 +50,75 @@ const Contact = () => {
         });
 
         setLoading(false);
+
+        // Auto close modal after 4 seconds
+        setTimeout(() => {
+          setShowSuccessModal(false);
+        }, 4000);
       })
       .catch((error) => {
         console.error(error);
-        alert("❌ Failed to send message");
+        alert("❌ Failed to send message. Please try again.");
         setLoading(false);
       });
   };
 
   return (
     <div className="contact-page">
-      <div className="container">
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div
+          className="success-modal-overlay"
+          onClick={() => setShowSuccessModal(false)}
+        >
+          <div className="success-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="success-animation">
+              <div className="success-checkmark">
+                <div className="check-icon">
+                  <span className="icon-line line-tip"></span>
+                  <span className="icon-line line-long"></span>
+                  <div className="icon-circle"></div>
+                  <div className="icon-fix"></div>
+                </div>
+              </div>
+            </div>
+            <h2 className="success-title">Message Sent Successfully!</h2>
+            <p className="success-message">
+              Thank you for contacting us. We've received your message and will
+              get back to you within 24 hours.
+            </p>
+            <div className="success-details">
+              <div className="detail-item">
+                <span className="detail-icon">✓</span>
+                <span>Email confirmation sent</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-icon">✓</span>
+                <span>Response within 2-4 hours</span>
+              </div>
+            </div>
+            <button
+              className="success-btn"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Got it, Thanks!
+            </button>
+          </div>
+        </div>
+      )}
 
+      <div className="container">
         {/* Header */}
         <div className="contact-header">
           <h1 className="contact-title">Get in Touch</h1>
           <p className="contact-subtitle">
-            Have questions about HK DEALERS? Need support with your luxury watch purchase? 
-            We're here to help you on your horology journey.
+            Have questions about HK DEALERS? Need support with your luxury watch
+            purchase? We're here to help you on your horology journey.
           </p>
         </div>
 
         {/* Contact Cards */}
         <div className="contact-cards">
-
           <div className="contact-card">
             <div className="card-icon">📧</div>
             <h3 className="card-title">Email Us</h3>
@@ -94,8 +139,18 @@ const Contact = () => {
             <p className="card-hours">Available 9 AM - 7 PM</p>
 
             <div className="social-links">
-              <a href="https://www.instagram.com/hkdealers9824/" className="social-link">Instagram</a>
-              <a href="https://www.facebook.com/hk.dealers.337205" className="social-link">Facebook</a>
+              <a
+                href="https://www.instagram.com/hkdealers9824/"
+                className="social-link"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.facebook.com/hk.dealers.337205"
+                className="social-link"
+              >
+                Facebook
+              </a>
             </div>
           </div>
 
@@ -109,23 +164,20 @@ const Contact = () => {
               +977 9824722712
             </a>
           </div>
-
         </div>
 
         {/* Main Grid */}
         <div className="contact-grid">
-
           {/* LEFT — FORM */}
           <div className="contact-form-section">
             <div className="form-card">
-
               <h2 className="form-title">Send us a Message</h2>
               <p className="form-subtitle">
-                Fill out the form below and we'll get back to you as soon as possible.
+                Fill out the form below and we'll get back to you as soon as
+                possible.
               </p>
 
               <form onSubmit={handleSubmit} className="contact-form">
-
                 <div className="form-group">
                   <label>Full Name *</label>
                   <input
@@ -173,7 +225,6 @@ const Contact = () => {
                 <button type="submit" className="submit-btn" disabled={loading}>
                   {loading ? "Sending..." : "Send Message"}
                 </button>
-
               </form>
 
               <div className="response-guarantee">
@@ -187,13 +238,11 @@ const Contact = () => {
                   <span className="guarantee-label">Web App Support</span>
                 </div>
               </div>
-
             </div>
           </div>
 
           {/* RIGHT — MAP + INFO */}
           <div className="info-section">
-
             {/* Google Map */}
             <div className="map-container">
               <iframe
@@ -209,67 +258,72 @@ const Contact = () => {
 
             {/* Business Info */}
             <div className="business-info">
-
               <h3 className="info-title">Visit Our Showroom</h3>
 
               <div className="info-details">
-
                 <div className="info-row">
                   <span className="info-label">📍 Address:</span>
                   <span className="info-value">
-                    Shiva Saloon, Prayag Pokhari Marg,<br />
+                    Shiva Saloon, Prayag Pokhari Marg,
+                    <br />
                     Lalitpur 44600, Nepal
                   </span>
                 </div>
 
                 <div className="info-row">
                   <span className="info-label">📧 Email:</span>
-                  <span className="info-value">
-                    himanshu982472@gmail.com
-                  </span>
+                  <span className="info-value">himanshu982472@gmail.com</span>
                 </div>
 
                 <div className="info-row">
                   <span className="info-label">📞 Phone:</span>
-                  <span className="info-value">
-                    +977 9824722712
-                  </span>
+                  <span className="info-value">+977 9824722712</span>
                 </div>
 
                 <div className="info-row">
                   <span className="info-label">💬 WhatsApp:</span>
-                  <span className="info-value">
-                    +977 9824722712
-                  </span>
+                  <span className="info-value">+977 9824722712</span>
                 </div>
-
               </div>
-
             </div>
 
             {/* Business Hours */}
             <div className="business-hours">
-
               <h3 className="hours-title">🕒 Business Hours</h3>
 
               <div className="hours-grid">
-
-                <div className="hours-row"><span>Monday</span><span>10 am–7 pm</span></div>
-                <div className="hours-row"><span>Tuesday</span><span>10 am–7 pm</span></div>
-                <div className="hours-row"><span>Wednesday</span><span>10 am–7 pm</span></div>
-                <div className="hours-row"><span>Thursday</span><span>10 am–7 pm</span></div>
-                <div className="hours-row"><span>Friday</span><span>9 am–7 pm</span></div>
-                <div className="hours-row closed"><span>Saturday</span><span>Closed</span></div>
-                <div className="hours-row"><span>Sunday</span><span>9 am–7 pm</span></div>
-
+                <div className="hours-row">
+                  <span>Monday</span>
+                  <span>10 am–7 pm</span>
+                </div>
+                <div className="hours-row">
+                  <span>Tuesday</span>
+                  <span>10 am–7 pm</span>
+                </div>
+                <div className="hours-row">
+                  <span>Wednesday</span>
+                  <span>10 am–7 pm</span>
+                </div>
+                <div className="hours-row">
+                  <span>Thursday</span>
+                  <span>10 am–7 pm</span>
+                </div>
+                <div className="hours-row">
+                  <span>Friday</span>
+                  <span>9 am–7 pm</span>
+                </div>
+                <div className="hours-row closed">
+                  <span>Saturday</span>
+                  <span>Closed</span>
+                </div>
+                <div className="hours-row">
+                  <span>Sunday</span>
+                  <span>9 am–7 pm</span>
+                </div>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
     </div>
   );
