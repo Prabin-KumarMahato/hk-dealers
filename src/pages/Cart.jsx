@@ -1,110 +1,123 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../context/CartContext.jsx";
 import emailjs from "@emailjs/browser";
+import { CartContext } from "../context/CartContext.jsx";
+import { api } from "../api/client.js";
 import "./Cart.css";
 
 const Cart = () => {
-  const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+  const { cartItems, removeFromCart, clearCart, createOrder } = useContext(CartContext);
 
   const [showOrderForm, setShowOrderForm] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
     address: "",
     mobile: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
     0
   );
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setSubmitError("");
   };
 
   const handleBuyNowClick = () => {
     setShowOrderForm(true);
-
+    setSubmitError("");
     setTimeout(() => {
       document.querySelector(".order-form-section")?.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }, 100);
   };
 
   const closeForm = () => {
     setShowOrderForm(false);
+    setSubmitError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleRemove = (id) => {
+    removeFromCart(id);
+  };
+
+  const handleClearCart = () => {
+    clearCart();
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setSubmitting(true);
+    setSubmitError("");
 
-    const productList = cartItems
-      .map(
-        (item, index) =>
-          `${index + 1}. ${item.brand} ${item.model}\nQty: ${item.quantity}\nPrice: Rs. ${item.price}\nSubtotal: Rs. ${item.price * item.quantity}`
-      )
-      .join("\n\n");
-
-    const templateParams = {
-      name: form.name,
-      address: form.address,
-      mobile: form.mobile,
-      email: form.email,
-      message: form.message,
-      product: productList,
-      quantity: cartItems.length,
-      total: totalPrice
+    const orderData = {
+      name: form.name.trim(),
+      address: form.address.trim(),
+      mobile: form.mobile.trim(),
+      email: form.email.trim(),
+      message: (form.message || "").trim(),
+      items: cartItems.map((item) => ({
+        productId: item.id || item.productId,
+        qty: item.quantity || 1,
+      })),
+      totalPrice,
     };
 
-    emailjs
-      .send(
-        "service_x2sy4ov",
-        "template_2mtyx2p",
-        templateParams,
-        "1_0YGRViezqRkyJFD"
-      )
-      .then(() => {
-        setShowSuccessModal(true);
+    console.log("Submitting order:", orderData);
 
-        setForm({
-          name: "",
-          address: "",
-          mobile: "",
-          email: "",
-          message: ""
-        });
+    try {
+      await createOrder(orderData);
+      console.log("Order saved to backend successfully");
 
-        setShowOrderForm(false);
-        setLoading(false);
+      try {
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_x2sy4ov",
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_2mtyx2p",
+          {
+            name: form.name,
+            email: form.email,
+            subject: `New Order - ${form.name}`,
+            message: `Order from ${form.name}\nEmail: ${form.email}\nMobile: ${form.mobile}\nAddress: ${form.address}\nMessage: ${form.message || "—"}\n\nItems: ${cartItems.length}\nTotal: Rs. ${totalPrice}`,
+          },
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "1_0YGRViezqRkyJFD"
+        );
+        console.log("Order confirmation email sent");
+      } catch (emailErr) {
+        console.error("EmailJS error (order still saved):", emailErr);
+      }
 
-        clearCart();
+      setShowSuccessModal(true);
+      setForm({ name: "", address: "", mobile: "", email: "", message: "" });
+      setShowOrderForm(false);
+      clearCart();
 
-        setTimeout(() => {
-          setShowSuccessModal(false);
-        }, 4000);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("❌ Failed to send order. Please try again.");
-        setLoading(false);
-      });
+      setTimeout(() => setShowSuccessModal(false), 4000);
+    } catch (error) {
+      console.error("Order submit error:", error);
+      const message = error?.message || error?.response?.data?.message || "Failed to submit order. Please try again.";
+      setSubmitError(message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  if (cartItems.length === 0) {
+  if (cartItems.length === 0 && !showOrderForm) {
     return (
       <div
         className="container"
         style={{
           paddingTop: "3rem",
           paddingBottom: "3rem",
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         <h2>Your Cart is Empty</h2>
@@ -123,31 +136,10 @@ const Cart = () => {
           onClick={() => setShowSuccessModal(false)}
         >
           <div className="success-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="success-animation">
-              <div className="success-checkmark">
-                <div className="check-icon">
-                  <span className="icon-line line-tip"></span>
-                  <span className="icon-line line-long"></span>
-                  <div className="icon-circle"></div>
-                  <div className="icon-fix"></div>
-                </div>
-              </div>
-            </div>
             <h2 className="success-title">Order Sent Successfully!</h2>
             <p className="success-message">
-              Thank you for your order! We've received your request and will
-              contact you shortly to confirm the details.
+              Thank you for your order! We have saved it and will contact you shortly.
             </p>
-            <div className="success-details">
-              <div className="detail-item">
-                <span className="detail-icon">✓</span>
-                <span>Order confirmation sent to your email</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-icon">✓</span>
-                <span>We'll contact you within 2-4 hours</span>
-              </div>
-            </div>
             <button
               className="success-btn"
               onClick={() => setShowSuccessModal(false)}
@@ -167,27 +159,22 @@ const Cart = () => {
               <h3>Cart Items ({cartItems.length})</h3>
 
               {cartItems.map((item) => (
-                <div key={item.id} className="cart-item">
+                <div key={item.id || item.productId} className="cart-item">
                   <img
                     src={item.image}
-                    alt={item.model}
+                    alt={item.model || item.name}
                     className="cart-item-image"
                   />
-
                   <div className="cart-item-details">
                     <h4>
-                      {item.brand} {item.model}
+                      {item.brand} {item.model || item.name}
                     </h4>
-
                     <div>Price: Rs. {item.price}</div>
-
                     <div>Qty: {item.quantity}</div>
-
-                    <div>Subtotal: Rs. {item.price * item.quantity}</div>
+                    <div>Subtotal: Rs. {(item.price || 0) * (item.quantity || 0)}</div>
                   </div>
-
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => handleRemove(item.id || item.productId)}
                     className="remove-btn"
                   >
                     Remove
@@ -195,7 +182,7 @@ const Cart = () => {
                 </div>
               ))}
 
-              <button onClick={clearCart} className="clear-cart-btn">
+              <button onClick={handleClearCart} className="clear-cart-btn">
                 Clear Cart
               </button>
             </div>
@@ -204,16 +191,12 @@ const Cart = () => {
           <div className="order-summary-section">
             <div className="order-summary-card">
               <h3>Order Summary</h3>
-
               <div>Total Products: {cartItems.length}</div>
-
               <div>
                 Total Quantity:{" "}
-                {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+                {cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0)}
               </div>
-
               <div>Total Price: Rs. {totalPrice}</div>
-
               <button className="buy-now-btn" onClick={handleBuyNowClick}>
                 Buy Now
               </button>
@@ -231,6 +214,11 @@ const Cart = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="order-form">
+              {submitError && (
+                <div className="order-form-error" role="alert">
+                  {submitError}
+                </div>
+              )}
               <input
                 type="text"
                 name="name"
@@ -239,7 +227,6 @@ const Cart = () => {
                 onChange={handleChange}
                 required
               />
-
               <textarea
                 name="address"
                 placeholder="Address"
@@ -247,7 +234,6 @@ const Cart = () => {
                 onChange={handleChange}
                 required
               />
-
               <input
                 type="tel"
                 name="mobile"
@@ -256,7 +242,6 @@ const Cart = () => {
                 onChange={handleChange}
                 required
               />
-
               <input
                 type="email"
                 name="email"
@@ -265,20 +250,18 @@ const Cart = () => {
                 onChange={handleChange}
                 required
               />
-
               <textarea
                 name="message"
-                placeholder="Message"
+                placeholder="Message (optional)"
                 value={form.message}
                 onChange={handleChange}
               />
-
               <button
                 type="submit"
                 className="submit-order-btn"
-                disabled={loading}
+                disabled={submitting}
               >
-                {loading ? "Sending..." : "Submit Order"}
+                {submitting ? "Sending..." : "Submit Order"}
               </button>
             </form>
           </div>

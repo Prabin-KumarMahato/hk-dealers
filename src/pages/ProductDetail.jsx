@@ -1,14 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import watches from "../data/watches.jsx";
-import { CartContext } from "../context/CartContext.jsx";
 import emailjs from "@emailjs/browser";
+import { CartContext } from "../context/CartContext.jsx";
+import { api } from "../api/client.js";
 import "./ProductDetail.css";
+
+const NO_IMAGE_PLACEHOLDER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect fill='%23e5e7eb' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-family='sans-serif' font-size='18'%3ENo image%3C/text%3E%3C/svg%3E";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = watches.find((w) => w.id === Number(id));
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, createOrder } = useContext(CartContext);
+
+  const [product, setProduct] = useState(null);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [pageError, setPageError] = useState("");
 
   const [quantity, setQuantity] = useState(1);
   const [showOrderForm, setShowOrderForm] = useState(false);
@@ -23,13 +29,53 @@ const ProductDetail = () => {
     message: ""
   });
 
-  if (!product) {
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadProduct = async () => {
+      try {
+        setPageLoading(true);
+        const data = await api.get(`/api/products/${id}`);
+        if (isMounted) {
+          setProduct(data);
+          setPageError("");
+        }
+      } catch (error) {
+        if (isMounted) {
+          setPageError(error.message || "Product not found");
+        }
+      } finally {
+        if (isMounted) {
+          setPageLoading(false);
+        }
+      }
+    };
+
+    loadProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  if (pageLoading) {
     return (
       <div
         className="container"
         style={{ paddingTop: "3rem", textAlign: "center" }}
       >
-        <h2>Product not found</h2>
+        <div className="spinner" />
+      </div>
+    );
+  }
+
+  if (pageError || !product) {
+    return (
+      <div
+        className="container"
+        style={{ paddingTop: "3rem", textAlign: "center" }}
+      >
+        <h2>{pageError || "Product not found"}</h2>
         <Link
           to="/products"
           className="btn btn-primary"
@@ -49,52 +95,57 @@ const ProductDetail = () => {
     setQuantity(parseInt(e.target.value) || 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleAddToCart = async () => {
+    try {
+      await addToCart(product, quantity);
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to add to cart. Please try again.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    const templateParams = {
-      name: form.name,
-      address: form.address,
-      mobile: form.mobile,
-      email: form.email,
-      message: form.message,
-      product: `${product.brand} ${product.model}`,
-      quantity: quantity,
-      total: product.price * quantity
+    const totalPrice = (product.price || 0) * (quantity || 1);
+    const orderData = {
+      name: form.name.trim(),
+      address: form.address.trim(),
+      mobile: form.mobile.trim(),
+      email: form.email.trim(),
+      message: (form.message || "").trim(),
+      items: [{ productId: product._id, qty: quantity || 1 }],
+      totalPrice,
     };
-
-    emailjs
-      .send(
-        "service_x2sy4ov",
-        "template_2mtyx2p",
-        templateParams,
-        "1_0YGRViezqRkyJFD"
-      )
-      .then(() => {
-        setShowSuccessModal(true);
-
-        setForm({
-          name: "",
-          address: "",
-          mobile: "",
-          email: "",
-          message: ""
-        });
-
-        setQuantity(1);
-        setShowOrderForm(false);
-        setLoading(false);
-
-        setTimeout(() => {
-          setShowSuccessModal(false);
-        }, 4000);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("❌ Failed to send order. Please try again.");
-        setLoading(false);
-      });
+    console.log("Submitting order (ProductDetail):", orderData);
+    try {
+      await createOrder(orderData);
+      try {
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_x2sy4ov",
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_2mtyx2p",
+          {
+            name: form.name,
+            email: form.email,
+            subject: `New Order - ${form.name}`,
+            message: `Order from ${form.name}\nEmail: ${form.email}\nMobile: ${form.mobile}\nAddress: ${form.address}\nProduct: ${product.name || product.model}\nQty: ${quantity}\nTotal: Rs. ${totalPrice}`,
+          },
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "1_0YGRViezqRkyJFD"
+        );
+      } catch (emailErr) {
+        console.error("EmailJS error (order still saved):", emailErr);
+      }
+      setShowSuccessModal(true);
+      setForm({ name: "", address: "", mobile: "", email: "", message: "" });
+      setQuantity(1);
+      setShowOrderForm(false);
+      setTimeout(() => setShowSuccessModal(false), 4000);
+    } catch (error) {
+      console.error("Order submit error:", error);
+      alert(error?.message || "❌ Failed to submit order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBuyNowClick = () => {
@@ -166,15 +217,15 @@ const ProductDetail = () => {
         <div className="product-main">
           <div className="product-image-section">
             <img
-              src={product.image}
-              alt={`${product.brand} ${product.model}`}
+              src={product.image?.trim() || NO_IMAGE_PLACEHOLDER}
+              alt={product.image ? `${product.brand} ${product.name}` : "No product image"}
               className="product-detail-image"
             />
           </div>
 
           <div className="product-info-section">
             <div className="product-brand">{product.brand}</div>
-            <h1 className="product-title">{product.model}</h1>
+            <h1 className="product-title">{product.name || product.model}</h1>
 
             <div className="price-section">
               <span className="current-price">Rs. {product.price}</span>
@@ -216,10 +267,7 @@ const ProductDetail = () => {
                 Buy Now
               </button>
 
-              <button
-                onClick={() => addToCart(product, quantity)}
-                className="add-to-cart-btn"
-              >
+              <button onClick={handleAddToCart} className="add-to-cart-btn">
                 Add to Cart
               </button>
             </div>

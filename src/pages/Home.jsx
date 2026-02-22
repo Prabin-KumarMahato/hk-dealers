@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WatchCard from "../components/WatchCard.jsx";
-import watches from "../data/watches.jsx";
 import BannerSlider from "../components/BannerSlider.jsx";
+import { api } from "../api/client.js";
 import "./Home.css";
 
 const Home = () => {
@@ -10,10 +10,32 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setFeaturedWatches(watches.slice(0, 3));
-      setLoading(false);
-    }, 500);
+    let isMounted = true;
+
+    const loadFeatured = async () => {
+      try {
+        setLoading(true);
+        const data = await api.get("/api/products");
+        if (isMounted) {
+          setFeaturedWatches((data.items || []).slice(0, 3));
+        }
+      } catch (error) {
+        console.error(error);
+        if (isMounted) {
+          setFeaturedWatches([]);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadFeatured();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
