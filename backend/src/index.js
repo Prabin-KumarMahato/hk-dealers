@@ -22,9 +22,6 @@ await connectDB();
 
 /* =========================
    ADMIN AUTO-CREATION
-   - If admin does not exist → create
-   - If admin exists → update password from .env
-   Default login: admin@example.com / admin123
 ========================= */
 const DEFAULT_ADMIN_EMAIL = "admin@example.com";
 const DEFAULT_ADMIN_PASSWORD = "admin123";
@@ -33,10 +30,6 @@ async function createOrUpdateAdmin() {
     try {
         const adminEmail = (process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL).trim().toLowerCase();
         const adminPassword = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
-
-        if (!adminPassword) {
-            console.warn("⚠️ ADMIN_PASSWORD not set; using default.");
-        }
 
         const existing = await User.findOne({ email: adminEmail }).select("+password");
 
@@ -66,20 +59,32 @@ await createOrUpdateAdmin();
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
 
+/* ✅ FIXED CORS */
 const allowedOrigins = [
-    process.env.FRONTEND_ORIGIN || "http://localhost:5173",
+    "https://hk-dealers.vercel.app",
+    "https://hk-dealers-admin.vercel.app",
+    "http://localhost:5173",
     "http://localhost:5174",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
-].filter(Boolean);
+];
 
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({
+    origin: function(origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+}));
+
 app.use(express.json());
 
 app.get("/api/health", (req, res) => {
     res.json({ status: "ok", time: new Date().toISOString() });
 });
 
+/* ROUTES */
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
@@ -87,6 +92,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 
+/* ERRORS */
 app.use(notFound);
 app.use(errorHandler);
 
