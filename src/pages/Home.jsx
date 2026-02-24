@@ -19,7 +19,7 @@ const Home = () => {
         const data = await api.get("/api/products");
         if (isMounted) {
           const items = Array.isArray(data) ? data : data.items || [];
-          setFeaturedWatches(items.slice(0, 3));
+          setFeaturedWatches(items);
         }
       } catch (error) {
         console.error(error);
