@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import WatchCard from "../components/WatchCard.jsx";
 import BannerSlider from "../components/BannerSlider.jsx";
 import { api } from "../api/client.js";
+import { ShieldCheck, Award, Globe, RefreshCw } from "lucide-react";
 import "./Home.css";
 
 const Home = () => {
@@ -17,7 +18,8 @@ const Home = () => {
         setLoading(true);
         const data = await api.get("/api/products");
         if (isMounted) {
-          setFeaturedWatches((data.items || []).slice(0, 3));
+          const items = Array.isArray(data) ? data : data.items || [];
+          setFeaturedWatches(items.slice(0, 3));
         }
       } catch (error) {
         console.error(error);
@@ -43,50 +45,74 @@ const Home = () => {
       <section className="banner-section">
         <div className="container">
           <BannerSlider />
-          <h1 className="banner-heading">Luxury Timepieces</h1>
-          <Link
-            to="/products"
-            className="btn btn-primary"
-            style={{ fontSize: "1.1rem", padding: "1rem 2.5rem" }}
-          >
+          <h1 className="banner-heading">The Art of Fine Watchmaking</h1>
+          <Link to="/products" className="btn btn-primary">
             Explore Collection
           </Link>
         </div>
       </section>
-      <section
-        className="container"
-        style={{ marginTop: "4rem", marginBottom: "3rem" }}
-      >
-        <h2 className="section-title">Trusted Brands </h2>
+
+      <section className="container" style={{ marginTop: "4rem" }}>
+        <h2 className="section-title" style={{ color: "#fff" }}>
+          Trusted Brands
+        </h2>
         <div className="brands-container scrollable">
           {[
-            "ROLEX",
-            "PATEK PHILIPPE",
-            "AUDEMARS PIGUET",
-            "OMEGA",
-            "CARTIER"
+            { name: "ROLEX", logo: "https://logo.clearbit.com/rolex.com" },
+            {
+              name: "PATEK PHILIPPE",
+              logo: "https://logo.clearbit.com/patek.com",
+            },
+            {
+              name: "AUDEMARS PIGUET",
+              logo: "https://logo.clearbit.com/audemarspiguet.com",
+            },
+            {
+              name: "OMEGA",
+              logo: "https://logo.clearbit.com/omegawatches.com",
+            },
+            { name: "CARTIER", logo: "https://logo.clearbit.com/cartier.com" },
           ].map((brand) => (
             <div
-              key={brand}
+              key={brand.name}
               className="brand-item"
               style={{
-                padding: "1.25rem 2.5rem",
-                border: "2px solid #070000",
+                padding: "1rem 2rem",
                 borderRadius: "8px",
-                fontWeight: "700",
-                fontSize: "1.05rem",
+                fontWeight: "600",
+                fontSize: "0.95rem",
                 letterSpacing: "1px",
                 transition: "all 0.3s ease",
-                cursor: "default"
+                cursor: "pointer",
+                border: "1px solid rgba(250, 250, 249, 0.1)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "0.75rem",
               }}
             >
-              {brand}
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                style={{
+                  height: "40px",
+                  objectFit: "contain",
+                  filter: "grayscale(100%) brightness(200%)",
+                }}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }}
+              />
+              <span style={{ color: "#fff" }}>{brand.name}</span>
             </div>
           ))}
         </div>
       </section>
-      <section className="container" style={{ marginBottom: "4rem" }}>
-        <h2 className="section-title">Featured Timepieces </h2>
+
+      <section className="container">
+        <h2 className="section-title" style={{ color: "#fff" }}>
+          Featured Timepieces
+        </h2>
         {loading ? (
           <div className="spinner" />
         ) : (
@@ -96,144 +122,80 @@ const Home = () => {
             ))}
           </div>
         )}
-        <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
-          <Link
-            to="/products"
-            className="btn btn-secondary"
-            style={{ fontSize: "1.1rem", padding: "0.9rem 2rem" }}
-          >
-            View All Watches
+        <div style={{ textAlign: "center", marginTop: "3rem" }}>
+          <Link to="/products" className="btn btn-secondary">
+            View Full Collection
           </Link>
         </div>
       </section>
-      <section
-        style={{
-          background: "#1a1a1a",
-          color: "white",
-          padding: "4rem 0",
-          marginTop: "3rem"
-        }}
-      >
+
+      <section className="values-section">
         <div className="container">
-          <h2
-            style={{
-              textAlign: "center",
-              marginBottom: "3rem",
-              fontSize: "2.5rem"
-            }}
-          >
-            Why Choose Us
-          </h2>
+          <h2 className="section-title">The HK Standard</h2>
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "3rem"
+              gap: "2rem",
             }}
           >
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> ✓ </div>
-              <h3
-                style={{
-                  color: "#d4af37",
-                  marginBottom: "0.75rem",
-                  fontSize: "1.4rem"
-                }}
-              >
-                100 % Authentic
-              </h3>
-              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
-                Every watch is verified by our expert team to ensure complete
-                authenticity
+            <div className="value-card">
+              <Award className="value-icon" />
+              <h3 className="value-title">100% Authentic</h3>
+              <p className="value-text">
+                Every watch is rigorously authenticated by our expert
+                horologists before entering our vault.
               </p>
             </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> 🛡️ </div>
-              <h3
-                style={{
-                  color: "#d4af37",
-                  marginBottom: "0.75rem",
-                  fontSize: "1.4rem"
-                }}
-              >
-                2 - Year Warranty
-              </h3>
-              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
-                Comprehensive coverage on all timepieces for your peace of mind
+            <div className="value-card">
+              <ShieldCheck className="value-icon" />
+              <h3 className="value-title">2-Year Warranty</h3>
+              <p className="value-text">
+                Comprehensive international coverage on all timepieces for your
+                complete peace of mind.
               </p>
             </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> 🌍 </div>
-              <h3
-                style={{
-                  color: "#d4af37",
-                  marginBottom: "0.75rem",
-                  fontSize: "1.4rem"
-                }}
-              >
-                Global Shipping
-              </h3>
-              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
-                Secure worldwide delivery with full insurance and tracking
+            <div className="value-card">
+              <Globe className="value-icon" />
+              <h3 className="value-title">Insured Shipping</h3>
+              <p className="value-text">
+                Secure, fully-insured global delivery via armored courier
+                services.
               </p>
             </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}> 🔄 </div>
-              <h3
-                style={{
-                  color: "#d4af37",
-                  marginBottom: "0.75rem",
-                  fontSize: "1.4rem"
-                }}
-              >
-                Trade - In Service
-              </h3>
-              <p style={{ color: "#ccc", lineHeight: "1.8" }}>
-                Upgrade your collection with our flexible trade - in program
+            <div className="value-card">
+              <RefreshCw className="value-icon" />
+              <h3 className="value-title">Bespoke Trade-Ins</h3>
+              <p className="value-text">
+                Elevate your collection with our discreet and competitive
+                valuation program.
               </p>
             </div>
           </div>
         </div>
       </section>
-      <section className="container" style={{ padding: "4rem 0" }}>
-        <div
-          style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto" }}
-        >
-          <h2 style={{ marginBottom: "1.5rem", fontSize: "2.5rem" }}>
-            Ready to Find Your Perfect Timepiece ?
-          </h2>
-          <p
-            style={{
-              color: "#666",
-              marginBottom: "2rem",
-              fontSize: "1.1rem",
-              lineHeight: "1.8"
-            }}
-          >
-            Browse our exclusive collection or contact us for personalized
-            assistance in finding the watch of your dreams.
+
+      <section className="cta-section">
+        <div className="container">
+          <h2 className="cta-title">Acquire Your Legacy</h2>
+          <p className="cta-text">
+            Whether you seek a rare vintage horological masterpiece or the
+            latest release from haute horlogerie maisons, our concierge is at
+            your service.
           </p>
           <div
             style={{
               display: "flex",
-              gap: "1rem",
+              gap: "1.5rem",
               justifyContent: "center",
-              flexWrap: "wrap"
+              flexWrap: "wrap",
             }}
           >
-            <Link
-              to="/products"
-              className="btn btn-primary"
-              style={{ fontSize: "1.05rem" }}
-            >
-              Browse Collection
+            <Link to="/products" className="btn btn-primary">
+              Discover Watches
             </Link>
-            <Link
-              to="/contact"
-              className="btn btn-secondary"
-              style={{ fontSize: "1.05rem" }}
-            >
-              Contact Us
+            <Link to="/contact" className="btn btn-secondary">
+              Contact Concierge
             </Link>
           </div>
         </div>

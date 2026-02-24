@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Hash password before saving

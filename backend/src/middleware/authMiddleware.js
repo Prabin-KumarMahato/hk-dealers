@@ -8,7 +8,9 @@ import User from "../models/User.js";
 export async function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
   const token =
-    authHeader && authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : null;
+    authHeader && authHeader.startsWith("Bearer ")
+      ? authHeader.slice(7).trim()
+      : null;
 
   if (!token) {
     return res.status(401).json({ message: "Not authorized, no token" });

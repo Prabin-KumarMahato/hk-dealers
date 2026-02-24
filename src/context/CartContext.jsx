@@ -49,7 +49,7 @@ export const CartProvider = ({ children }) => {
         return prev.map((item) =>
           (item.id || item.productId) === id
             ? { ...item, quantity: item.quantity + quantity }
-            : item
+            : item,
         );
       }
       return [
@@ -70,7 +70,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    setCartItems((prev) => prev.filter((item) => (item.id || item.productId) !== productId));
+    setCartItems((prev) =>
+      prev.filter((item) => (item.id || item.productId) !== productId),
+    );
   };
 
   const clearCart = () => {
@@ -85,8 +87,10 @@ export const CartProvider = ({ children }) => {
     }
     setCartItems((prev) =>
       prev.map((item) =>
-        (item.id || item.productId) === productId ? { ...item, quantity: q } : item
-      )
+        (item.id || item.productId) === productId
+          ? { ...item, quantity: q }
+          : item,
+      ),
     );
   };
 

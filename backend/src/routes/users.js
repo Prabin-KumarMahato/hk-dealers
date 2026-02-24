@@ -16,9 +16,11 @@ router.use(adminMiddleware);
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const users = await User.find({}).select("-password").sort({ createdAt: -1 });
+    const users = await User.find({})
+      .select("-password")
+      .sort({ createdAt: -1 });
     res.json(users);
-  })
+  }),
 );
 
 /**
@@ -32,7 +34,7 @@ router.get(
       return res.status(404).json({ message: "User not found" });
     }
     res.json(user);
-  })
+  }),
 );
 
 /**
@@ -46,7 +48,7 @@ router.delete(
       return res.status(404).json({ message: "User not found" });
     }
     res.json({ message: "User removed" });
-  })
+  }),
 );
 
 export default router;

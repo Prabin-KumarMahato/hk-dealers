@@ -14,7 +14,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const products = await Product.find({}).sort({ createdAt: -1 });
     res.json(products);
-  })
+  }),
 );
 
 /**
@@ -28,7 +28,7 @@ router.get(
       return res.status(404).json({ message: "Product not found" });
     }
     res.json(product);
-  })
+  }),
 );
 
 /**
@@ -41,7 +41,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const product = await Product.create(req.body);
     res.status(201).json(product);
-  })
+  }),
 );
 
 /**
@@ -60,7 +60,7 @@ router.put(
       return res.status(404).json({ message: "Product not found" });
     }
     res.json(product);
-  })
+  }),
 );
 
 /**
@@ -76,7 +76,7 @@ router.delete(
       return res.status(404).json({ message: "Product not found" });
     }
     res.json({ message: "Product removed" });
-  })
+  }),
 );
 
 export default router;

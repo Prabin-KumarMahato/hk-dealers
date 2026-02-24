@@ -25,7 +25,7 @@ export function Login() {
       }
       login(
         { _id: data._id, name: data.name, email: data.email, role: data.role },
-        data.token
+        data.token,
       );
       navigate(from, { replace: true });
     } catch (err) {
@@ -48,7 +48,10 @@ export function Login() {
               </div>
             )}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -62,7 +65,10 @@ export function Login() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input

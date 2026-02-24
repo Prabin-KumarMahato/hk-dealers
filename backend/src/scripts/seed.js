@@ -21,7 +21,9 @@ async function seed() {
 
     const existing = await Product.countDocuments();
     if (existing > 0) {
-      console.log(`Database already has ${existing} product(s). Clearing products collection for fresh seed...`);
+      console.log(
+        `Database already has ${existing} product(s). Clearing products collection for fresh seed...`,
+      );
       await Product.deleteMany({});
     }
 

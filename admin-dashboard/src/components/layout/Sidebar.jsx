@@ -5,6 +5,7 @@ import {
   ShoppingCart,
   Users,
   LogOut,
+  Image,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -13,6 +14,7 @@ const nav = [
   { to: "/products", icon: Package, label: "Products" },
   { to: "/orders", icon: ShoppingCart, label: "Orders" },
   { to: "/users", icon: Users, label: "Users" },
+  { to: "/banners", icon: Image, label: "Banners" },
 ];
 
 export function Sidebar() {
@@ -21,7 +23,9 @@ export function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 z-30 h-full w-64 border-r border-gray-200 bg-white shadow-sm lg:flex lg:flex-col hidden">
       <div className="flex h-14 items-center border-b border-gray-200 px-6">
-        <span className="text-xl font-semibold text-primary-600">HK Dealers Admin</span>
+        <span className="text-xl font-semibold text-primary-600">
+          HK Dealers Admin
+        </span>
       </div>
       <nav className="flex-1 space-y-0.5 p-4">
         {nav.map(({ to, icon: Icon, label }) => (

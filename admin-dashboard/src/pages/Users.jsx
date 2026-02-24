@@ -11,7 +11,9 @@ export function Users() {
     setLoading(true);
     getUsers()
       .then(setList)
-      .catch((err) => setError(err.response?.data?.message || "Failed to load users"))
+      .catch((err) =>
+        setError(err.response?.data?.message || "Failed to load users"),
+      )
       .finally(() => setLoading(false));
   };
 
@@ -20,7 +22,8 @@ export function Users() {
   }, []);
 
   const handleDelete = async (id, name) => {
-    if (!window.confirm(`Delete user "${name}"? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete user "${name}"? This cannot be undone.`))
+      return;
     setError("");
     try {
       await deleteUser(id);
@@ -44,7 +47,9 @@ export function Users() {
       <h1 className="text-2xl font-semibold text-gray-900">Users</h1>
 
       {error && (
-        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</div>
+        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+          {error}
+        </div>
       )}
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -77,8 +82,12 @@ export function Users() {
               <tbody className="divide-y divide-gray-200 bg-white">
                 {list.map((user) => (
                   <tr key={user._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium text-gray-900">{user.name}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{user.email}</td>
+                    <td className="px-4 py-3 font-medium text-gray-900">
+                      {user.name}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-600">
+                      {user.email}
+                    </td>
                     <td className="px-4 py-3">
                       <span
                         className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${

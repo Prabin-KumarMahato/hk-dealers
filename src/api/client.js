@@ -20,12 +20,12 @@ async function request(path, options = {}) {
   const headers = {
     "Content-Type": "application/json",
     "x-user-id": getUserId(),
-    ...(options.headers || {})
+    ...(options.headers || {}),
   };
 
   const response = await fetch(`${API_BASE}${path}`, {
     ...options,
-    headers
+    headers,
   });
 
   if (response.status === 204) {
@@ -50,15 +50,15 @@ export const api = {
   post: (path, body) =>
     request(path, {
       method: "POST",
-      body: body ? JSON.stringify(body) : undefined
+      body: body ? JSON.stringify(body) : undefined,
     }),
   patch: (path, body) =>
     request(path, {
       method: "PATCH",
-      body: body ? JSON.stringify(body) : undefined
+      body: body ? JSON.stringify(body) : undefined,
     }),
   delete: (path) =>
     request(path, {
-      method: "DELETE"
-    })
+      method: "DELETE",
+    }),
 };

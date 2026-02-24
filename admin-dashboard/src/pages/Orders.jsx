@@ -13,7 +13,9 @@ export function Orders() {
     setLoading(true);
     getOrders()
       .then(setList)
-      .catch((err) => setError(err.response?.data?.message || "Failed to load orders"))
+      .catch((err) =>
+        setError(err.response?.data?.message || "Failed to load orders"),
+      )
       .finally(() => setLoading(false));
   };
 
@@ -48,7 +50,9 @@ export function Orders() {
       <h1 className="text-2xl font-semibold text-gray-900">Orders</h1>
 
       {error && (
-        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</div>
+        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+          {error}
+        </div>
       )}
 
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -106,7 +110,9 @@ export function Orders() {
                     <td className="px-4 py-3">
                       <select
                         value={order.status ?? "pending"}
-                        onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                        onChange={(e) =>
+                          handleStatusChange(order._id, e.target.value)
+                        }
                         disabled={updatingId === order._id}
                         className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 disabled:opacity-50"
                       >
@@ -117,7 +123,9 @@ export function Orders() {
                         ))}
                       </select>
                       {updatingId === order._id && (
-                        <span className="ml-2 text-xs text-gray-500">Updating…</span>
+                        <span className="ml-2 text-xs text-gray-500">
+                          Updating…
+                        </span>
                       )}
                     </td>
                   </tr>

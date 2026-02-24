@@ -7,13 +7,17 @@ import { Dashboard } from "./pages/Dashboard";
 import { Products } from "./pages/Products";
 import { Orders } from "./pages/Orders";
 import { Users } from "./pages/Users";
+import { Banners } from "./pages/Banners";
 
 function App() {
   const { user } = useAuth();
 
   return (
     <Routes>
-      <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+      <Route
+        path="/login"
+        element={user ? <Navigate to="/" replace /> : <Login />}
+      />
       <Route
         path="/"
         element={
@@ -26,6 +30,7 @@ function App() {
         <Route path="products" element={<Products />} />
         <Route path="orders" element={<Orders />} />
         <Route path="users" element={<Users />} />
+        <Route path="banners" element={<Banners />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

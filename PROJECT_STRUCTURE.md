@@ -6,11 +6,11 @@ This document describes the **hk-dealers** project: frontend, backend, and how *
 
 ## 1. Overview
 
-| Part        | Location              | Stack                          | Purpose                    |
-|------------|------------------------|--------------------------------|----------------------------|
-| **Frontend** | `hk-dealers/` (root)   | React 18, Vite 5, React Router 6 | HK Dealers website (watches) |
-| **Backend**  | `hk-dealers/backend/` | Node (ESM), Express            | REST API (auth, products, cart, orders) |
-| **Database** | —                     | **Currently in-memory**        | No MongoDB Atlas yet; see §4 to add it |
+| Part         | Location              | Stack                            | Purpose                                 |
+| ------------ | --------------------- | -------------------------------- | --------------------------------------- |
+| **Frontend** | `hk-dealers/` (root)  | React 18, Vite 5, React Router 6 | HK Dealers website (watches)            |
+| **Backend**  | `hk-dealers/backend/` | Node (ESM), Express              | REST API (auth, products, cart, orders) |
+| **Database** | —                     | **Currently in-memory**          | No MongoDB Atlas yet; see §4 to add it  |
 
 ---
 
@@ -140,12 +140,12 @@ MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>?retry
 
 ### 4.3 Suggested collections (MongoDB Atlas)
 
-| Collection  | Purpose                         |
-|------------|----------------------------------|
-| `products` | Watch catalog                   |
-| `users`    | User accounts (if you add auth) |
+| Collection | Purpose                               |
+| ---------- | ------------------------------------- |
+| `products` | Watch catalog                         |
+| `users`    | User accounts (if you add auth)       |
 | `carts`    | Per-user cart (e.g. `userId` + items) |
-| `orders`   | Placed orders                   |
+| `orders`   | Placed orders                         |
 
 ### 4.4 Dependencies to add (backend)
 
@@ -168,11 +168,11 @@ npm install mongodb
 
 ## 6. Summary
 
-| Item           | Current state              | With MongoDB Atlas                    |
-|----------------|----------------------------|----------------------------------------|
-| Frontend       | Vite + React, `src/`, `api/client.js` | No change                              |
-| Backend        | Express, in-memory `store.js`        | Add `config/db.js`, `models/`, use `MONGODB_URI` |
-| Database       | None (in-memory)           | MongoDB Atlas; collections: products, users, carts, orders |
-| Env (backend)  | `PORT`, `FRONTEND_ORIGIN`  | Add `MONGODB_URI`                      |
+| Item          | Current state                         | With MongoDB Atlas                                         |
+| ------------- | ------------------------------------- | ---------------------------------------------------------- |
+| Frontend      | Vite + React, `src/`, `api/client.js` | No change                                                  |
+| Backend       | Express, in-memory `store.js`         | Add `config/db.js`, `models/`, use `MONGODB_URI`           |
+| Database      | None (in-memory)                      | MongoDB Atlas; collections: products, users, carts, orders |
+| Env (backend) | `PORT`, `FRONTEND_ORIGIN`             | Add `MONGODB_URI`                                          |
 
 If you want, the next step can be: add `config/db.js`, update `.env.example` with `MONGODB_URI`, and switch one route (e.g. products) to use MongoDB Atlas instead of `store.js`.

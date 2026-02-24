@@ -26,7 +26,7 @@ const ProductDetail = () => {
     address: "",
     mobile: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const ProductDetail = () => {
             subject: `New Order - ${form.name}`,
             message: `Order from ${form.name}\nEmail: ${form.email}\nMobile: ${form.mobile}\nAddress: ${form.address}\nProduct: ${product.name || product.model}\nQty: ${quantity}\nTotal: Rs. ${totalPrice}`,
           },
-          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "1_0YGRViezqRkyJFD"
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "1_0YGRViezqRkyJFD",
         );
       } catch (emailErr) {
         console.error("EmailJS error (order still saved):", emailErr);
@@ -152,7 +152,7 @@ const ProductDetail = () => {
     setShowOrderForm(true);
     setTimeout(() => {
       document.querySelector(".order-form-section")?.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }, 100);
   };
@@ -163,7 +163,7 @@ const ProductDetail = () => {
 
   const originalPrice = product.price * 1.55;
   const discount = Math.round(
-    ((originalPrice - product.price) / originalPrice) * 100
+    ((originalPrice - product.price) / originalPrice) * 100,
   );
 
   return (
@@ -218,7 +218,11 @@ const ProductDetail = () => {
           <div className="product-image-section">
             <img
               src={product.image?.trim() || NO_IMAGE_PLACEHOLDER}
-              alt={product.image ? `${product.brand} ${product.name}` : "No product image"}
+              alt={
+                product.image
+                  ? `${product.brand} ${product.name}`
+                  : "No product image"
+              }
               className="product-detail-image"
             />
           </div>

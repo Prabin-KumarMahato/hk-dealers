@@ -1,3 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+:root {
+  /* Liquid Glass Design System Tokens */
+  --color-primary: #1c1917;
+  --color-secondary: #44403c;
+  --color-cta: #ca8a04;
+  --color-background: #0c0a09;
+  --color-text: #fafaf9;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,13 +29,20 @@
 }
 
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Cormorant", serif;
 }
 
 .App {
@@ -28,225 +59,138 @@ body {
 
 .main-content {
   flex: 1;
-  background-color: #f5f5f5;
+  background-color: transparent;
 }
 
-/* Navigation */
-.navbar {
-  background-color: #1a1a1a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 2px solid #d4af37;
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70px; /* Fixed height for consistency */
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ffffff;
-  text-decoration: none;
-  transition: opacity 0.3s;
-  height: 100%;
-}
-
-.logo:hover {
-  opacity: 0.8;
-}
-
-.logo img {
-  height: 50px; /* Increased from default */
-  width: auto;
-  max-width: 180px; /* Prevents too wide images */
-  object-fit: contain;
-}
-
-.logo-text {
-  display: flex;
-  gap: 4px;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
-  line-height: 1;
-}
-
-.logo-highlight {
-  color: #d4af37;
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-links li {
-  position: relative;
-}
-
-.nav-link {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.1rem; /* Slightly increased */
-  transition: color 0.3s;
-  padding: 0.5rem 1rem; /* Added horizontal padding */
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.nav-link:hover {
-  color: #d4af37;
-  background-color: rgba(255, 255, 255, 0.05); /* Subtle hover background */
-}
-
-.nav-link.active {
-  color: #d4af37;
-  font-weight: 600;
-}
-
-.cart-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-}
-
-.cart-icon svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-}
-
-.cart-count {
-  position: absolute;
-  top: 0px;
-  right: 4px;
-  background-color: #d4af37;
-  color: #1a1a1a;
-  font-size: 0.75rem;
-  font-weight: bold;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #1a1a1a; /* Creates a ring effect */
-}
-
+/* Buttons */
 .btn {
-  padding: 12px 28px;
-  border-radius: 4px;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   border: none;
-  transition: all 0.3s;
+  transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
   font-size: 1rem;
-  line-height: 1.5;
-  text-align: center;
+  font-family: "Montserrat", sans-serif;
 }
 
 .btn-primary {
-  background-color: #d4af37;
-  color: #1a1a1a;
+  background-color: var(--color-cta);
+  color: var(--color-primary);
+  box-shadow: 0 4px 14px 0 rgba(202, 138, 4, 0.39);
 }
 
 .btn-primary:hover {
-  background-color: #c19a2e;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 6px 20px rgba(202, 138, 4, 0.23);
+  background-color: #eab308; /* Slightly lighter gold on hover */
 }
 
 .btn-secondary {
   background-color: transparent;
-  border: 2px solid #1a1a1a;
-  color: #1a1a1a;
+  border: 1px solid rgba(250, 250, 249, 0.2);
+  color: var(--color-text);
+  backdrop-filter: blur(4px);
 }
 
 .btn-secondary:hover {
-  background-color: #1a1a1a;
-  color: #ffffff;
+  background-color: rgba(250, 250, 249, 0.1);
+  border-color: rgba(250, 250, 249, 0.3);
 }
 
+/* Cards (for Products) */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 2rem 0;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
 }
 
 .product-card {
-  background: #ffffff;
-  border-radius: 8px;
+  background: rgba(68, 64, 60, 0.3);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid #e0e0e0;
+  box-shadow: var(--shadow-lg);
+  transition: all 500ms cubic-bezier(0.25, 1, 0.5, 1);
+  border: 1px solid rgba(250, 250, 249, 0.05);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  border-color: #d4af37;
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(202, 138, 4, 0.3);
+  background: rgba(68, 64, 60, 0.5);
+}
+
+.product-image-container {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 700ms cubic-bezier(0.25, 1, 0.5, 1);
+  padding: var(--space-md);
 }
 
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+/* Typography inside products */
 .product-info {
-  padding: 1.5rem;
+  padding: var(--space-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-brand {
-  color: #666;
+  color: rgba(250, 250, 249, 0.6);
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+  margin-bottom: var(--space-xs);
 }
 
 .product-name {
-  margin: 0.5rem 0 1rem 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
+  margin: 0 0 var(--space-md) 0;
+  font-size: 1.35rem;
+  font-weight: 400; /* Cormorant has elegant regular weights */
+  color: var(--color-text);
   line-height: 1.3;
 }
 
 .product-price {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #d4af37;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-cta);
+  margin-bottom: var(--space-lg);
+  margin-top: auto; /* Push down */
 }
 
+/* Footer improvements */
 .footer {
-  background-color: #1a1a1a;
-  color: #ccc;
-  padding: 3rem 0 2rem;
+  background-color: rgba(28, 25, 23, 0.8);
+  backdrop-filter: blur(12px);
+  color: rgba(250, 250, 249, 0.7);
+  padding: var(--space-3xl) 0 var(--space-xl);
   margin-top: auto;
-  border-top: 3px solid #d4af37;
+  border-top: 1px solid rgba(250, 250, 249, 0.1);
 }
 
 .footer-content {
@@ -254,39 +198,41 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }
 
 .footer-title {
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  color: var(--color-text);
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
 }
 
 .footer-title span {
-  color: #d4af37;
+  color: var(--color-cta);
 }
 
 .footer-tagline {
-  color: #ccc;
+  color: rgba(250, 250, 249, 0.8);
   font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 .footer-copyright {
-  color: #888;
+  color: rgba(250, 250, 249, 0.4);
   font-size: 0.9rem;
+  margin-top: var(--space-lg);
 }
 
 .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 3px solid rgba(250, 250, 249, 0.1);
   border-radius: 50%;
-  border-top: 4px solid #d4af37;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-  margin: 3rem auto;
+  border-top: 3px solid var(--color-cta);
+  width: 40px;
+  height: 40px;
+  animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+  margin: var(--space-2xl) auto;
 }
 
 @keyframes spin {
@@ -298,6 +244,7 @@ body {
   }
 }
 
+/* Inputs & Forms */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -305,32 +252,31 @@ input[type="number"],
 select,
 textarea {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 14px 18px;
+  background-color: rgba(28, 25, 23, 0.6);
+  border: 1px solid rgba(250, 250, 249, 0.1);
+  color: var(--color-text);
+  border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
-  transition: border-color 0.3s;
+  transition: all 300ms ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(250, 250, 249, 0.4);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  border-color: var(--color-cta);
+  background-color: rgba(28, 25, 23, 0.9);
+  box-shadow: 0 0 0 4px rgba(202, 138, 4, 0.15);
 }
 
 @media (max-width: 968px) {
-  .nav-links {
-    gap: 1rem;
-  }
-
-  .nav-link {
-    font-size: 1rem;
-    padding: 0.5rem 0.8rem;
-  }
-
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
@@ -338,37 +284,6 @@ textarea:focus {
 }
 
 @media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    height: auto;
-    gap: 0.5rem;
-    padding: 0.5rem 0;
-  }
-
-  .logo {
-    justify-content: center;
-  }
-
-  .logo img {
-    height: 40px; /* Slightly smaller on mobile */
-  }
-
-  .nav-links {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .nav-link {
-    font-size: 0.95rem;
-    padding: 0.4rem 0.6rem;
-  }
-
-  .logo-text {
-    font-size: 1.5rem;
-  }
-
   .products-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;

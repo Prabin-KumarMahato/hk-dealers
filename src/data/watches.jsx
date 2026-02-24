@@ -8,7 +8,7 @@ const watches = [
     price: 98500,
     condition: "New",
     image:
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const watches = [
     price: 1250000,
     condition: "Pre-owned",
     image:
-      "https://media.gettyimages.com/id/531725359/photo/rolex-wrist-watch.jpg?s=612x612&w=0&k=20&c=OqHPFuSIlt6qKDKOHfTf8jtEWcknOHgaR5A6NkJg1kc="
+      "https://media.gettyimages.com/id/531725359/photo/rolex-wrist-watch.jpg?s=612x612&w=0&k=20&c=OqHPFuSIlt6qKDKOHfTf8jtEWcknOHgaR5A6NkJg1kc=",
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const watches = [
     price: 420000,
     condition: "New",
     image:
-      "https://media.gettyimages.com/id/458132157/photo/gold-rolex-gmt-master-2-wristwatch.jpg?s=612x612&w=0&k=20&c=I-UcACBAoQFZUoVoQAk0aFuA-8WXGuBhyG5AZlgmwa8="
+      "https://media.gettyimages.com/id/458132157/photo/gold-rolex-gmt-master-2-wristwatch.jpg?s=612x612&w=0&k=20&c=I-UcACBAoQFZUoVoQAk0aFuA-8WXGuBhyG5AZlgmwa8=",
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const watches = [
     price: 58000,
     condition: "New",
     image:
-      "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const watches = [
     price: 350000,
     condition: "Pre-owned",
     image:
-      "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 6,
@@ -63,7 +63,7 @@ const watches = [
     price: 75000,
     condition: "New",
     image:
-      "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 7,
@@ -74,8 +74,8 @@ const watches = [
     price: 285000,
     condition: "New",
     image:
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-  }
+      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  },
 ];
 
 export default watches;

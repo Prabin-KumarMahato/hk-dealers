@@ -83,20 +83,20 @@ hk-dealers/
 
 ## Roadmap: what lives where
 
-| Layer        | Folder / file              | Role |
-|-------------|----------------------------|------|
-| **Frontend root** | `hk-dealers/`             | Vite app root: `index.html`, `vite.config.js`, `package.json` |
-| **Frontend entry** | `src/main.jsx` → `App.jsx` | Bootstrap React and React Router |
-| **API layer**     | `src/api/client.js`       | Single place for backend URL and `x-user-id`; `api.get/post/patch/delete` |
-| **State**         | `src/context/CartContext.jsx` | Cart shared across pages |
-| **UI building blocks** | `src/components/`   | Navbar, WatchCard, BannerSlider |
-| **Screens**       | `src/pages/`              | Home, Products, ProductDetail, Cart, About, Contact |
-| **Static data**   | `src/data/watches.jsx`    | Client-side watch list (can later come from API) |
-| **Styles**        | `src/app.css`, `src/styles/`, `*.css` in pages | Global and per-page/per-component CSS |
-| **Backend entry** | `backend/src/index.js`    | Express app, CORS, route mounting, listen |
-| **API surface**   | `backend/src/routes/*.js` | auth, products, cart, orders |
-| **Errors**        | `backend/src/middleware/` | notFound + errorHandler |
-| **Data (current)**| `backend/src/data/store.js` + `products.js` | In-memory DB; replace with MongoDB when you add Atlas |
+| Layer                  | Folder / file                                  | Role                                                                      |
+| ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------------- |
+| **Frontend root**      | `hk-dealers/`                                  | Vite app root: `index.html`, `vite.config.js`, `package.json`             |
+| **Frontend entry**     | `src/main.jsx` → `App.jsx`                     | Bootstrap React and React Router                                          |
+| **API layer**          | `src/api/client.js`                            | Single place for backend URL and `x-user-id`; `api.get/post/patch/delete` |
+| **State**              | `src/context/CartContext.jsx`                  | Cart shared across pages                                                  |
+| **UI building blocks** | `src/components/`                              | Navbar, WatchCard, BannerSlider                                           |
+| **Screens**            | `src/pages/`                                   | Home, Products, ProductDetail, Cart, About, Contact                       |
+| **Static data**        | `src/data/watches.jsx`                         | Client-side watch list (can later come from API)                          |
+| **Styles**             | `src/app.css`, `src/styles/`, `*.css` in pages | Global and per-page/per-component CSS                                     |
+| **Backend entry**      | `backend/src/index.js`                         | Express app, CORS, route mounting, listen                                 |
+| **API surface**        | `backend/src/routes/*.js`                      | auth, products, cart, orders                                              |
+| **Errors**             | `backend/src/middleware/`                      | notFound + errorHandler                                                   |
+| **Data (current)**     | `backend/src/data/store.js` + `products.js`    | In-memory DB; replace with MongoDB when you add Atlas                     |
 
 ---
 
@@ -116,13 +116,13 @@ Browser (React)
 
 ## Quick reference: key files
 
-| Purpose              | File |
-|----------------------|------|
-| Change API base URL  | `src/api/client.js` (or env `VITE_API_URL`) |
-| Add a new page       | `src/pages/<Name>.jsx` + route in `App.jsx` |
-| Add a new API route  | `backend/src/routes/<name>.js` + mount in `backend/src/index.js` |
-| Backend port / CORS  | `backend/.env` → `PORT`, `FRONTEND_ORIGIN` (see `.env.example`) |
-| Seed products        | `backend/src/data/products.js` and usage in `store.js` |
+| Purpose             | File                                                             |
+| ------------------- | ---------------------------------------------------------------- |
+| Change API base URL | `src/api/client.js` (or env `VITE_API_URL`)                      |
+| Add a new page      | `src/pages/<Name>.jsx` + route in `App.jsx`                      |
+| Add a new API route | `backend/src/routes/<name>.js` + mount in `backend/src/index.js` |
+| Backend port / CORS | `backend/.env` → `PORT`, `FRONTEND_ORIGIN` (see `.env.example`)  |
+| Seed products       | `backend/src/data/products.js` and usage in `store.js`           |
 
 ---
 

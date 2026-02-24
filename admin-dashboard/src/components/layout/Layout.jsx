@@ -36,7 +36,9 @@ export function Layout() {
         }`}
       >
         <div className="flex h-14 items-center border-b px-4">
-          <span className="font-semibold text-primary-600">HK Dealers Admin</span>
+          <span className="font-semibold text-primary-600">
+            HK Dealers Admin
+          </span>
         </div>
         <nav className="space-y-0.5 p-4">
           {mobileNav.map(({ to, icon: Icon, label }) => (
@@ -47,7 +49,9 @@ export function Layout() {
               onClick={() => setSidebarOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium ${
-                  isActive ? "bg-primary-50 text-primary-700" : "text-gray-700 hover:bg-gray-100"
+                  isActive
+                    ? "bg-primary-50 text-primary-700"
+                    : "text-gray-700 hover:bg-gray-100"
                 }`
               }
             >

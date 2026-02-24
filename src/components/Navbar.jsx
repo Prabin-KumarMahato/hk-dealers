@@ -15,7 +15,12 @@ const Navbar = () => {
       <div className="container">
         <div className="nav-container">
           <Link to="/" className="logo">
-            <img src="/logo.png" alt="WatchHK Logo" className="logo-img" />
+            <img
+              src="/logo2removebg.png"
+              alt="WatchHK Logo"
+              className="logo-img"
+              style={{ maxHeight: "60px", width: "auto" }}
+            />
           </Link>
 
           <button

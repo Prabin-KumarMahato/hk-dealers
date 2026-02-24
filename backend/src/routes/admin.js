@@ -22,7 +22,13 @@ router.get(
       User.countDocuments(),
       Product.countDocuments(),
       Order.aggregate([
-        { $group: { _id: null, count: { $sum: 1 }, totalRevenue: { $sum: "$totalPrice" } } },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            totalRevenue: { $sum: "$totalPrice" },
+          },
+        },
       ]),
     ]);
 
@@ -35,7 +41,7 @@ router.get(
       totalProducts,
       totalRevenue,
     });
-  })
+  }),
 );
 
 export default router;

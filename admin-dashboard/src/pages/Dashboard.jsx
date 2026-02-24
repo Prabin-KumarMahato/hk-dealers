@@ -12,10 +12,30 @@ import {
 } from "recharts";
 
 const statCards = [
-  { key: "totalUsers", label: "Total Users", icon: Users, color: "bg-blue-500" },
-  { key: "totalOrders", label: "Total Orders", icon: ShoppingCart, color: "bg-emerald-500" },
-  { key: "totalProducts", label: "Total Products", icon: Package, color: "bg-amber-500" },
-  { key: "totalRevenue", label: "Revenue", icon: DollarSign, color: "bg-violet-500" },
+  {
+    key: "totalUsers",
+    label: "Total Users",
+    icon: Users,
+    color: "bg-blue-500",
+  },
+  {
+    key: "totalOrders",
+    label: "Total Orders",
+    icon: ShoppingCart,
+    color: "bg-emerald-500",
+  },
+  {
+    key: "totalProducts",
+    label: "Total Products",
+    icon: Package,
+    color: "bg-amber-500",
+  },
+  {
+    key: "totalRevenue",
+    label: "Revenue",
+    icon: DollarSign,
+    color: "bg-violet-500",
+  },
 ];
 
 export function Dashboard() {
@@ -26,7 +46,9 @@ export function Dashboard() {
   useEffect(() => {
     getAdminStats()
       .then(setStats)
-      .catch((err) => setError(err.response?.data?.message || "Failed to load stats"))
+      .catch((err) =>
+        setError(err.response?.data?.message || "Failed to load stats"),
+      )
       .finally(() => setLoading(false));
   }, []);
 
@@ -39,11 +61,7 @@ export function Dashboard() {
   }
 
   if (error) {
-    return (
-      <div className="rounded-lg bg-red-50 p-4 text-red-700">
-        {error}
-      </div>
-    );
+    return <div className="rounded-lg bg-red-50 p-4 text-red-700">{error}</div>;
   }
 
   const chartData = [
@@ -68,7 +86,7 @@ export function Dashboard() {
                 <p className="mt-1 text-2xl font-semibold text-gray-900">
                   {key === "totalRevenue"
                     ? `₹${Number(stats?.[key] ?? 0).toLocaleString()}`
-                    : stats?.[key] ?? 0}
+                    : (stats?.[key] ?? 0)}
                 </p>
               </div>
               <div className={`rounded-lg p-3 ${color}`}>
@@ -83,7 +101,10 @@ export function Dashboard() {
         <h2 className="mb-4 text-lg font-medium text-gray-900">Overview</h2>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <BarChart
+              data={chartData}
+              margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="name" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} />

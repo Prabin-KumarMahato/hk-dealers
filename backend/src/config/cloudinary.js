@@ -6,7 +6,7 @@ const api_secret = process.env.CLOUD_SECRET;
 
 if (!cloud_name || !api_key || !api_secret) {
   console.warn(
-    "⚠️ Cloudinary env missing (CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET). Image upload will fail."
+    "⚠️ Cloudinary env missing (CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET). Image upload will fail.",
   );
 }
 

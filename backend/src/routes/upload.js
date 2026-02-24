@@ -7,9 +7,7 @@ const router = express.Router();
 
 function hasCloudinaryEnv() {
   return (
-    process.env.CLOUD_NAME &&
-    process.env.CLOUD_KEY &&
-    process.env.CLOUD_SECRET
+    process.env.CLOUD_NAME && process.env.CLOUD_KEY && process.env.CLOUD_SECRET
   );
 }
 
@@ -29,8 +27,7 @@ router.post("/", (req, res, next) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-    const imageUrl =
-      req.file.path || req.file.secure_url || req.file.url || "";
+    const imageUrl = req.file.path || req.file.secure_url || req.file.url || "";
     if (!imageUrl) {
       console.error("[Upload] No URL in req.file:", req.file);
       return res

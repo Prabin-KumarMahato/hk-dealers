@@ -3,7 +3,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const api = axios.create({
-  baseURL: API_URL
+  baseURL: API_URL,
 });
 
 // Attach token and handle 401 (logout)
@@ -22,7 +22,7 @@ api.interceptors.response.use(
       window.location.href = "/login";
     }
     return Promise.reject(err);
-  }
+  },
 );
 
 // Auth
@@ -61,3 +61,12 @@ export const getUsers = () => api.get("/api/users").then((r) => r.data);
 export const getUser = (id) => api.get(`/api/users/${id}`).then((r) => r.data);
 export const deleteUser = (id) =>
   api.delete(`/api/users/${id}`).then((r) => r.data);
+
+// Banners
+export const getBanners = () => api.get("/api/banners").then((r) => r.data);
+export const createBanner = (data) =>
+  api.post("/api/banners", data).then((r) => r.data);
+export const updateBanner = (id, data) =>
+  api.put(`/api/banners/${id}`, data).then((r) => r.data);
+export const deleteBanner = (id) =>
+  api.delete(`/api/banners/${id}`).then((r) => r.data);

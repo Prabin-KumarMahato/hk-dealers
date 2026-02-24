@@ -15,7 +15,15 @@ router.post(
   "/",
   asyncHandler(async (req, res) => {
     try {
-      const { name, address, mobile, email, message, items, totalPrice: clientTotal } = req.body;
+      const {
+        name,
+        address,
+        mobile,
+        email,
+        message,
+        items,
+        totalPrice: clientTotal,
+      } = req.body;
 
       if (!name || !address || !mobile || !email) {
         return res.status(400).json({
@@ -33,11 +41,15 @@ router.post(
       for (const item of items) {
         const productId = item.productId;
         if (!productId) {
-          return res.status(400).json({ message: "Each item must have productId" });
+          return res
+            .status(400)
+            .json({ message: "Each item must have productId" });
         }
         const product = await Product.findById(productId);
         if (!product) {
-          return res.status(404).json({ message: `Product not found: ${productId}` });
+          return res
+            .status(404)
+            .json({ message: `Product not found: ${productId}` });
         }
         const qty = Math.max(1, Number(item.qty ?? item.quantity) || 1);
         if (product.stock < qty) {
@@ -62,7 +74,9 @@ router.post(
       });
 
       for (const item of orderItems) {
-        await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.qty } });
+        await Product.findByIdAndUpdate(item.product, {
+          $inc: { stock: -item.qty },
+        });
       }
 
       const populated = await Order.findById(order._id)
@@ -74,7 +88,7 @@ router.post(
       console.error("Order create error:", error);
       return res.status(500).json({ message: error.message || "Order failed" });
     }
-  })
+  }),
 );
 
 /**
@@ -89,7 +103,7 @@ router.get(
       .sort({ createdAt: -1 })
       .populate("items.product", "name image price");
     res.json(orders);
-  })
+  }),
 );
 
 /**
@@ -112,14 +126,14 @@ router.put(
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { status },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     ).populate("items.product", "name image price");
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
     res.json(order);
-  })
+  }),
 );
 
 export default router;

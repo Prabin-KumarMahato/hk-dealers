@@ -15,6 +15,7 @@ React admin dashboard for HK Dealers backend. Uses JWT auth, protected routes, a
 ## Setup
 
 1. **Install dependencies**
+
    ```bash
    cd admin-dashboard && npm install
    ```
@@ -37,8 +38,8 @@ React admin dashboard for HK Dealers backend. Uses JWT auth, protected routes, a
 
 **Default admin (created automatically when backend starts):**
 
-| Field    | Value                 |
-|----------|------------------------|
+| Field        | Value                 |
+| ------------ | --------------------- |
 | **Email**    | `admin@hkdealers.com` |
 | **Password** | `Admin@123`           |
 

@@ -11,6 +11,7 @@ import orderRoutes from "./routes/orders.js";
 import userRoutes from "./routes/users.js";
 import adminRoutes from "./routes/admin.js";
 import uploadRoutes from "./routes/upload.js";
+import bannerRoutes from "./routes/banners.js";
 
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
@@ -27,28 +28,42 @@ const DEFAULT_ADMIN_EMAIL = "admin@example.com";
 const DEFAULT_ADMIN_PASSWORD = "admin123";
 
 async function createOrUpdateAdmin() {
-    try {
-        const adminEmail = (process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL).trim().toLowerCase();
-        const adminPassword = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
+  try {
+    const adminEmail = (process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL)
+      .trim()
+      .toLowerCase();
+    const adminPassword = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 
-        const existing = await User.findOne({ email: adminEmail }).select("+password");
+    const existing = await User.findOne({ email: adminEmail }).select(
+      "+password",
+    );
 
-        if (!existing) {
-            await User.create({
-                name: "Admin",
-                email: adminEmail,
-                password: adminPassword,
-                role: "admin",
-            });
-            console.log("✅ Admin user created. Login:", adminEmail, "/", adminPassword);
-        } else {
-            existing.password = adminPassword;
-            await existing.save();
-            console.log("✅ Admin password updated. Login:", adminEmail, "/", adminPassword);
-        }
-    } catch (err) {
-        console.error("❌ Admin create/update error:", err.message);
+    if (!existing) {
+      await User.create({
+        name: "Admin",
+        email: adminEmail,
+        password: adminPassword,
+        role: "admin",
+      });
+      console.log(
+        "✅ Admin user created. Login:",
+        adminEmail,
+        "/",
+        adminPassword,
+      );
+    } else {
+      existing.password = adminPassword;
+      await existing.save();
+      console.log(
+        "✅ Admin password updated. Login:",
+        adminEmail,
+        "/",
+        adminPassword,
+      );
     }
+  } catch (err) {
+    console.error("❌ Admin create/update error:", err.message);
+  }
 }
 
 await createOrUpdateAdmin();
@@ -61,27 +76,29 @@ const PORT = Number(process.env.PORT) || 5000;
 
 /* ✅ FIXED CORS */
 const allowedOrigins = [
-    "https://hk-dealers.vercel.app",
-    "https://hk-dealers-admin.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:5174",
+  "https://hk-dealers.vercel.app",
+  "https://hk-dealers-admin.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5174",
 ];
 
-app.use(cors({
-    origin: function(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
     },
     credentials: true,
-}));
+  }),
+);
 
 app.use(express.json());
 
 app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", time: new Date().toISOString() });
+  res.json({ status: "ok", time: new Date().toISOString() });
 });
 
 /* ROUTES */
@@ -91,11 +108,12 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/banners", bannerRoutes);
 
 /* ERRORS */
 app.use(notFound);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

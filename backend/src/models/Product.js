@@ -5,40 +5,40 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "Product name is required"],
-      trim: true
+      trim: true,
     },
     brand: {
       type: String,
       trim: true,
-      default: ""
+      default: "",
     },
     price: {
       type: Number,
       required: [true, "Price is required"],
-      min: 0
+      min: 0,
     },
     image: {
       type: String,
       default: "",
-      trim: true
+      trim: true,
     },
     description: {
       type: String,
       default: "",
-      trim: true
+      trim: true,
     },
     stock: {
       type: Number,
       default: 0,
-      min: 0
+      min: 0,
     },
     category: {
       type: String,
       trim: true,
-      default: ""
-    }
+      default: "",
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Product", productSchema);

@@ -7,7 +7,7 @@ const Contact = () => {
     name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const Contact = () => {
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -28,7 +28,7 @@ const Contact = () => {
       name: form.name,
       email: form.email,
       subject: form.subject,
-      message: form.message
+      message: form.message,
     };
 
     emailjs
@@ -36,7 +36,7 @@ const Contact = () => {
         "service_x2sy4ov",
         "template_2mtyx2p",
         templateParams,
-        "1_0YGRViezqRkyJFD"
+        "1_0YGRViezqRkyJFD",
       )
       .then(() => {
         setShowSuccessModal(true);
@@ -45,7 +45,7 @@ const Contact = () => {
           name: "",
           email: "",
           subject: "",
-          message: ""
+          message: "",
         });
 
         setLoading(false);

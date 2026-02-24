@@ -14,7 +14,7 @@ const cartItemSchema = new mongoose.Schema(
       default: 1,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const cartSchema = new mongoose.Schema(
@@ -27,7 +27,7 @@ const cartSchema = new mongoose.Schema(
     },
     items: [cartItemSchema],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Cart", cartSchema);

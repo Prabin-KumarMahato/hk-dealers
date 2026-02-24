@@ -4,7 +4,7 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-  uploadProductImage
+  uploadProductImage,
 } from "../api/axios";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 
@@ -15,7 +15,7 @@ const emptyProduct = {
   price: "",
   image: "",
   category: "",
-  stock: ""
+  stock: "",
 };
 
 export function Products() {
@@ -32,7 +32,7 @@ export function Products() {
     getProducts()
       .then(setList)
       .catch((err) =>
-        setError(err.response?.data?.message || "Failed to load products")
+        setError(err.response?.data?.message || "Failed to load products"),
       )
       .finally(() => setLoading(false));
   };
@@ -56,7 +56,7 @@ export function Products() {
       price: p.price?.toString() ?? "",
       image: p.image || "",
       category: p.category || "",
-      stock: p.stock?.toString() ?? ""
+      stock: p.stock?.toString() ?? "",
     });
     setModalOpen(true);
   };
@@ -101,7 +101,7 @@ export function Products() {
       price: Number(form.price) || 0,
       image: form.image.trim(),
       category: form.category.trim(),
-      stock: Number(form.stock) || 0
+      stock: Number(form.stock) || 0,
     };
 
     try {
@@ -195,8 +195,15 @@ export function Products() {
       {/* MODAL */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
-            <h2 className="text-lg font-semibold">
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl relative">
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition"
+              aria-label="Close"
+            >
+              <span className="text-3xl leading-none">&times;</span>
+            </button>
+            <h2 className="text-lg font-semibold pr-8">
               {editingId ? "Edit Product" : "Add Product"}
             </h2>
 

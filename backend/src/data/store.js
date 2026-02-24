@@ -4,7 +4,7 @@ export const store = {
   products: [...products],
   users: [],
   carts: new Map(),
-  orders: []
+  orders: [],
 };
 
 export function getUserId(req) {
@@ -15,7 +15,7 @@ export function sanitizeUser(user) {
   return {
     id: user.id,
     name: user.name,
-    email: user.email
+    email: user.email,
   };
 }
 
@@ -33,7 +33,7 @@ export function cartTotals(cartItems) {
     return {
       ...item,
       product,
-      lineTotal: product ? product.price * item.quantity : 0
+      lineTotal: product ? product.price * item.quantity : 0,
     };
   });
 

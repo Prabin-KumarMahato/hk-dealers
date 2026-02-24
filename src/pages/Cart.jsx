@@ -6,7 +6,8 @@ import { api } from "../api/client.js";
 import "./Cart.css";
 
 const Cart = () => {
-  const { cartItems, removeFromCart, clearCart, createOrder } = useContext(CartContext);
+  const { cartItems, removeFromCart, clearCart, createOrder } =
+    useContext(CartContext);
 
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -23,7 +24,7 @@ const Cart = () => {
 
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
-    0
+    0,
   );
 
   const handleChange = (e) => {
@@ -88,7 +89,7 @@ const Cart = () => {
             subject: `New Order - ${form.name}`,
             message: `Order from ${form.name}\nEmail: ${form.email}\nMobile: ${form.mobile}\nAddress: ${form.address}\nMessage: ${form.message || "—"}\n\nItems: ${cartItems.length}\nTotal: Rs. ${totalPrice}`,
           },
-          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "1_0YGRViezqRkyJFD"
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "1_0YGRViezqRkyJFD",
         );
         console.log("Order confirmation email sent");
       } catch (emailErr) {
@@ -103,7 +104,10 @@ const Cart = () => {
       setTimeout(() => setShowSuccessModal(false), 4000);
     } catch (error) {
       console.error("Order submit error:", error);
-      const message = error?.message || error?.response?.data?.message || "Failed to submit order. Please try again.";
+      const message =
+        error?.message ||
+        error?.response?.data?.message ||
+        "Failed to submit order. Please try again.";
       setSubmitError(message);
     } finally {
       setSubmitting(false);
@@ -138,7 +142,8 @@ const Cart = () => {
           <div className="success-modal" onClick={(e) => e.stopPropagation()}>
             <h2 className="success-title">Order Sent Successfully!</h2>
             <p className="success-message">
-              Thank you for your order! We have saved it and will contact you shortly.
+              Thank you for your order! We have saved it and will contact you
+              shortly.
             </p>
             <button
               className="success-btn"
@@ -171,7 +176,9 @@ const Cart = () => {
                     </h4>
                     <div>Price: Rs. {item.price}</div>
                     <div>Qty: {item.quantity}</div>
-                    <div>Subtotal: Rs. {(item.price || 0) * (item.quantity || 0)}</div>
+                    <div>
+                      Subtotal: Rs. {(item.price || 0) * (item.quantity || 0)}
+                    </div>
                   </div>
                   <button
                     onClick={() => handleRemove(item.id || item.productId)}
