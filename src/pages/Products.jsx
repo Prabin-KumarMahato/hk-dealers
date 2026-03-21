@@ -89,37 +89,12 @@ const Products = () => {
 
   return (
     <div>
-      <div
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(44, 40, 36, 0.8) 0%, var(--color-background) 100%)",
-          padding: "6rem 0 4rem",
-          textAlign: "center",
-          borderBottom: "1px solid rgba(250, 250, 249, 0.05)",
-          marginBottom: "3rem",
-        }}
-      >
+      <div className="products-hero">
         <div className="container">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              marginBottom: "1rem",
-              color: "var(--color-text)",
-              fontFamily: "'Cormorant', serif",
-              fontWeight: "600",
-            }}
-          >
+          <h1 className="products-hero-title">
             Our Exquisite Collection
           </h1>
-          <p
-            style={{
-              color: "rgba(250, 250, 249, 0.6)",
-              fontSize: "1.2rem",
-              maxWidth: "600px",
-              margin: "0 auto",
-              lineHeight: "1.6",
-            }}
-          >
+          <p className="products-hero-subtitle">
             A curated selection of the world's finest luxury timepieces,
             meticulously authenticated by our master horologists.
           </p>

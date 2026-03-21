@@ -52,60 +52,31 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="container" style={{ marginTop: "4rem" }}>
-        <h2 className="section-title" style={{ color: "#fff" }}>
-          Trusted Brands
-        </h2>
-        <div className="brands-container scrollable">
-          {[
-            { name: "ROLEX", logo: "https://logo.clearbit.com/rolex.com" },
-            {
-              name: "PATEK PHILIPPE",
-              logo: "https://logo.clearbit.com/patek.com",
-            },
-            {
-              name: "AUDEMARS PIGUET",
-              logo: "https://logo.clearbit.com/audemarspiguet.com",
-            },
-            {
-              name: "OMEGA",
-              logo: "https://logo.clearbit.com/omegawatches.com",
-            },
-            { name: "CARTIER", logo: "https://logo.clearbit.com/cartier.com" },
-          ].map((brand) => (
-            <div
-              key={brand.name}
-              className="brand-item"
-              style={{
-                padding: "1rem 2rem",
-                borderRadius: "8px",
-                fontWeight: "600",
-                fontSize: "0.95rem",
-                letterSpacing: "1px",
-                transition: "all 0.3s ease",
-                cursor: "pointer",
-                border: "1px solid rgba(250, 250, 249, 0.1)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "0.75rem",
-              }}
-            >
-              <img
-                src={brand.logo}
-                alt={brand.name}
-                style={{
-                  height: "40px",
-                  objectFit: "contain",
-                  filter: "grayscale(100%) brightness(200%)",
-                }}
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
-              />
-              <span style={{ color: "#fff" }}>{brand.name}</span>
-            </div>
-          ))}
+      <section style={{ marginTop: "3rem", overflow: "hidden" }}>
+        <div className="container">
+          <h2 className="section-title" style={{ color: "#fff" }}>
+            Trusted Brands
+          </h2>
+        </div>
+        <div className="brands-marquee">
+          <div className="brands-marquee-track">
+            {/* First set */}
+            {["ROLEX", "PATEK PHILIPPE", "AUDEMARS PIGUET", "OMEGA", "CARTIER"].map(
+              (name) => (
+                <div key={name} className="brand-marquee-item">
+                  <span className="brand-marquee-text">{name}</span>
+                </div>
+              )
+            )}
+            {/* Duplicate set for seamless loop */}
+            {["ROLEX", "PATEK PHILIPPE", "AUDEMARS PIGUET", "OMEGA", "CARTIER"].map(
+              (name) => (
+                <div key={`dup-${name}`} className="brand-marquee-item">
+                  <span className="brand-marquee-text">{name}</span>
+                </div>
+              )
+            )}
+          </div>
         </div>
       </section>
 

@@ -19,7 +19,6 @@ const Navbar = () => {
               src="/logo2removebg.png"
               alt="WatchHK Logo"
               className="logo-img"
-              style={{ maxHeight: "60px", width: "auto" }}
             />
           </Link>
 
