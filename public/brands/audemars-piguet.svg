@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="64" viewBox="0 0 200 64" role="img" aria-labelledby="title">
+  <title>Audemars Piguet Wordmark</title>
+  <rect width="200" height="64" rx="12" fill="#0b121f" />
+  <text x="100" y="38" font-family="'Cinzel', 'Times New Roman', serif" font-weight="500" font-size="22" fill="#c6d8ff" text-anchor="middle" letter-spacing="4">
+    AUDEMARS
+  </text>
+  <text x="100" y="58" font-family="'Cinzel', 'Times New Roman', serif" font-weight="500" font-size="20" fill="#c6d8ff" text-anchor="middle" letter-spacing="6">
+    PIGUET
+  </text>
+</svg>

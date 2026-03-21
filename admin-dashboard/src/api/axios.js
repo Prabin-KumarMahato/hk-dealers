@@ -63,7 +63,7 @@ export const deleteUser = (id) =>
   api.delete(`/api/users/${id}`).then((r) => r.data);
 
 // Banners
-export const getBanners = () => api.get("/api/banners").then((r) => r.data);
+export const getBanners = () => api.get("/api/banners/admin").then((r) => r.data);
 export const createBanner = (data) =>
   api.post("/api/banners", data).then((r) => r.data);
 export const updateBanner = (id, data) =>
