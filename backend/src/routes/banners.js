@@ -14,23 +14,10 @@ const router = express.Router();
 router.get(
   "/",
   asyncHandler(async (req, res, next) => {
-    // Public route: only show active banners
-    const banners = await Banner.find({ isActive: true }).sort({ order: 1, createdAt: -1 });
-    res.json(banners);
-  }),
-);
-
-/**
- * @desc Get all banners (Admin only)
- * @route GET /api/banners/admin
- * @access Private/Admin
- */
-router.get(
-  "/admin",
-  authMiddleware,
-  adminMiddleware,
-  asyncHandler(async (req, res, next) => {
-    const banners = await Banner.find({}).sort({ order: 1, createdAt: -1 });
+    const isAdmin = req.user && req.user.role === "admin";
+    // If not admin fetching, only show active banners
+    const filter = isAdmin ? {} : { isActive: true };
+    const banners = await Banner.find(filter).sort({ order: 1, createdAt: -1 });
     res.json(banners);
   }),
 );

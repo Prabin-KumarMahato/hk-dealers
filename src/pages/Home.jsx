@@ -6,14 +6,6 @@ import { api } from "../api/client.js";
 import { ShieldCheck, Award, Globe, RefreshCw } from "lucide-react";
 import "./Home.css";
 
-const BRAND_PARTNERS = [
-  { name: "ROLEX", logo: "/brands/rolex.svg" },
-  { name: "PATEK PHILIPPE", logo: "/brands/patek.svg" },
-  { name: "AUDEMARS PIGUET", logo: "/brands/audemars-piguet.svg" },
-  { name: "OMEGA", logo: "/brands/omega.svg" },
-  { name: "CARTIER", logo: "/brands/cartier.svg" }
-];
-
 const Home = () => {
   const [featuredWatches, setFeaturedWatches] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,7 +57,22 @@ const Home = () => {
           Trusted Brands
         </h2>
         <div className="brands-container scrollable">
-          {BRAND_PARTNERS.map((brand) => (
+          {[
+            { name: "ROLEX", logo: "https://logo.clearbit.com/rolex.com" },
+            {
+              name: "PATEK PHILIPPE",
+              logo: "https://logo.clearbit.com/patek.com",
+            },
+            {
+              name: "AUDEMARS PIGUET",
+              logo: "https://logo.clearbit.com/audemarspiguet.com",
+            },
+            {
+              name: "OMEGA",
+              logo: "https://logo.clearbit.com/omegawatches.com",
+            },
+            { name: "CARTIER", logo: "https://logo.clearbit.com/cartier.com" },
+          ].map((brand) => (
             <div
               key={brand.name}
               className="brand-item"
@@ -81,21 +88,19 @@ const Home = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "0.75rem"
+                gap: "0.75rem",
               }}
             >
               <img
                 src={brand.logo}
-                alt={`${brand.name} logo`}
+                alt={brand.name}
                 style={{
-                  height: "48px",
-                  width: "160px",
+                  height: "40px",
                   objectFit: "contain",
-                  filter: "grayscale(20%) brightness(110%)"
+                  filter: "grayscale(100%) brightness(200%)",
                 }}
-                loading="lazy"
                 onError={(e) => {
-                  e.currentTarget.style.display = "none";
+                  e.target.style.display = "none";
                 }}
               />
               <span style={{ color: "#fff" }}>{brand.name}</span>
@@ -112,8 +117,8 @@ const Home = () => {
           <div className="spinner" />
         ) : (
           <div className="products-grid">
-            {featuredWatches.map((watch, index) => (
-              <WatchCard key={watch._id || index} watch={watch} />
+            {featuredWatches.map((watch) => (
+              <WatchCard key={watch.id} watch={watch} />
             ))}
           </div>
         )}
@@ -131,7 +136,7 @@ const Home = () => {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "2rem"
+              gap: "2rem",
             }}
           >
             <div className="value-card">
@@ -183,7 +188,7 @@ const Home = () => {
               display: "flex",
               gap: "1.5rem",
               justifyContent: "center",
-              flexWrap: "wrap"
+              flexWrap: "wrap",
             }}
           >
             <Link to="/products" className="btn btn-primary">

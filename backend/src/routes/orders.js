@@ -4,7 +4,6 @@ import Product from "../models/Product.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { adminMiddleware } from "../middleware/adminMiddleware.js";
-import { notifyAdminsOfOrder } from "../services/twilioClient.js";
 
 const router = express.Router();
 
@@ -23,12 +22,12 @@ router.post(
         email,
         message,
         items,
-        totalPrice: clientTotal
+        totalPrice: clientTotal,
       } = req.body;
 
       if (!name || !address || !mobile || !email) {
         return res.status(400).json({
-          message: "name, address, mobile and email are required"
+          message: "name, address, mobile and email are required",
         });
       }
 
@@ -55,7 +54,7 @@ router.post(
         const qty = Math.max(1, Number(item.qty ?? item.quantity) || 1);
         if (product.stock < qty) {
           return res.status(400).json({
-            message: `Not enough stock for ${product.name}. Available: ${product.stock}`
+            message: `Not enough stock for ${product.name}. Available: ${product.stock}`,
           });
         }
         const price = product.price;
@@ -71,12 +70,12 @@ router.post(
         message: message != null ? String(message).trim() : "",
         items: orderItems,
         totalPrice,
-        status: "pending"
+        status: "pending",
       });
 
       for (const item of orderItems) {
         await Product.findByIdAndUpdate(item.product, {
-          $inc: { stock: -item.qty }
+          $inc: { stock: -item.qty },
         });
       }
 
@@ -84,14 +83,12 @@ router.post(
         .populate("items.product", "name image price")
         .lean();
 
-      notifyAdminsOfOrder(populated);
-
       res.status(201).json(populated);
     } catch (error) {
       console.error("Order create error:", error);
       return res.status(500).json({ message: error.message || "Order failed" });
     }
-  })
+  }),
 );
 
 /**
@@ -106,7 +103,7 @@ router.get(
       .sort({ createdAt: -1 })
       .populate("items.product", "name image price");
     res.json(orders);
-  })
+  }),
 );
 
 /**
@@ -122,21 +119,21 @@ router.put(
     const allowed = ["pending", "paid", "shipped", "delivered"];
     if (!status || !allowed.includes(status)) {
       return res.status(400).json({
-        message: `status must be one of: ${allowed.join(", ")}`
+        message: `status must be one of: ${allowed.join(", ")}`,
       });
     }
 
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { status },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     ).populate("items.product", "name image price");
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
     res.json(order);
-  })
+  }),
 );
 
 export default router;
