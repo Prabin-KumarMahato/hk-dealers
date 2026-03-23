@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import WatchCard from "../components/WatchCard.jsx";
 import { api } from "../api/client.js";
 
@@ -21,19 +21,15 @@ const Products = () => {
       try {
         setLoading(true);
 
-        // ✅ Fetch products
-        const data = await api.get("/api/products");
-
-        console.log("Products API response:", data);
+        // ✅ Use cached fetch — navigating back won't re-fetch within TTL
+        const data = await api.get("/api/products", { cache: true });
 
         if (isMounted) {
-          // ✅ Backend returns array directly
           setProducts(Array.isArray(data) ? data : []);
           setError("");
         }
       } catch (err) {
         console.error("Product load error:", err);
-
         if (isMounted) {
           setError(err.message || "Failed to load products");
         }
@@ -52,36 +48,42 @@ const Products = () => {
   }, []);
 
   /* =========================
-     FILTER HANDLING
+     FILTER HANDLING (memoized)
   ========================= */
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setFilters({
       brand: "",
       condition: "",
       minPrice: "",
       maxPrice: "",
     });
-  };
+  }, []);
 
-  const parsedMin = filters.minPrice ? Number(filters.minPrice) : null;
-  const parsedMax = filters.maxPrice ? Number(filters.maxPrice) : null;
+  // Memoize expensive filtering so it only re-runs when inputs change
+  const filteredWatches = useMemo(() => {
+    const parsedMin = filters.minPrice ? Number(filters.minPrice) : null;
+    const parsedMax = filters.maxPrice ? Number(filters.maxPrice) : null;
 
-  const filteredWatches = products.filter((watch) => {
-    if (filters.brand && watch.brand !== filters.brand) return false;
-    if (filters.condition && watch.condition !== filters.condition)
-      return false;
-    if (parsedMin !== null && watch.price < parsedMin) return false;
-    if (parsedMax !== null && watch.price > parsedMax) return false;
-    return true;
-  });
+    return products.filter((watch) => {
+      if (filters.brand && watch.brand !== filters.brand) return false;
+      if (filters.condition && watch.condition !== filters.condition)
+        return false;
+      if (parsedMin !== null && watch.price < parsedMin) return false;
+      if (parsedMax !== null && watch.price > parsedMax) return false;
+      return true;
+    });
+  }, [products, filters]);
 
-  const brands = [...new Set(products.map((w) => w.brand).filter(Boolean))];
+  const brands = useMemo(
+    () => [...new Set(products.map((w) => w.brand).filter(Boolean))],
+    [products],
+  );
 
   /* =========================
      RENDER

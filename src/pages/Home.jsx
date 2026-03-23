@@ -16,7 +16,7 @@ const Home = () => {
     const loadFeatured = async () => {
       try {
         setLoading(true);
-        const data = await api.get("/api/products");
+        const data = await api.get("/api/products", { cache: true });
         if (isMounted) {
           const items = Array.isArray(data) ? data : data.items || [];
           setFeaturedWatches(items);

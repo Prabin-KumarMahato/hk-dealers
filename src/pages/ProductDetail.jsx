@@ -15,6 +15,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState("");
+  const [activeImage, setActiveImage] = useState(0);
 
   const [quantity, setQuantity] = useState(1);
   const [showOrderForm, setShowOrderForm] = useState(false);
@@ -39,6 +40,7 @@ const ProductDetail = () => {
         if (isMounted) {
           setProduct(data);
           setPageError("");
+          setActiveImage(0);
         }
       } catch (error) {
         if (isMounted) {
@@ -86,6 +88,12 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  // Build image gallery array
+  const images = [];
+  if (product.image?.trim()) images.push(product.image.trim());
+  if (product.image2?.trim()) images.push(product.image2.trim());
+  if (images.length === 0) images.push(NO_IMAGE_PLACEHOLDER);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -215,16 +223,38 @@ const ProductDetail = () => {
         </Link>
 
         <div className="product-main">
+          {/* ── IMAGE GALLERY ── */}
           <div className="product-image-section">
-            <img
-              src={product.image?.trim() || NO_IMAGE_PLACEHOLDER}
-              alt={
-                product.image
-                  ? `${product.brand} ${product.name}`
-                  : "No product image"
-              }
-              className="product-detail-image"
-            />
+            <div className="product-gallery-main">
+              <img
+                src={images[activeImage]}
+                alt={
+                  images[activeImage] !== NO_IMAGE_PLACEHOLDER
+                    ? `${product.brand} ${product.name}`
+                    : "No product image"
+                }
+                className="product-detail-image"
+              />
+            </div>
+
+            {/* Thumbnail strip — only show if there are 2+ images */}
+            {images.length > 1 && (
+              <div className="product-gallery-thumbs">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    className={`gallery-thumb ${activeImage === idx ? "active" : ""}`}
+                    onClick={() => setActiveImage(idx)}
+                    aria-label={`View image ${idx + 1}`}
+                  >
+                    <img
+                      src={img}
+                      alt={`${product.name} view ${idx + 1}`}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="product-info-section">
@@ -238,6 +268,16 @@ const ProductDetail = () => {
               </span>
               <span className="discount">-{discount}%</span>
             </div>
+
+            {/* ── DESCRIPTION ── */}
+            {product.description && (
+              <div className="product-description-section">
+                <h3 className="description-heading">Description</h3>
+                <p className="product-description-text">
+                  {product.description}
+                </p>
+              </div>
+            )}
 
             <div className="quantity-section">
               <span className="label">Quantity</span>

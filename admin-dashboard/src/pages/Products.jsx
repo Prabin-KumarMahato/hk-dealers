@@ -6,7 +6,7 @@ import {
   deleteProduct,
   uploadProductImage,
 } from "../api/axios";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ImagePlus } from "lucide-react";
 
 const emptyProduct = {
   name: "",
@@ -14,6 +14,7 @@ const emptyProduct = {
   description: "",
   price: "",
   image: "",
+  image2: "",
   category: "",
   stock: "",
 };
@@ -22,6 +23,7 @@ export function Products() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [uploading2, setUploading2] = useState(false);
   const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -55,6 +57,7 @@ export function Products() {
       description: p.description || "",
       price: p.price?.toString() ?? "",
       image: p.image || "",
+      image2: p.image2 || "",
       category: p.category || "",
       stock: p.stock?.toString() ?? "",
     });
@@ -68,22 +71,24 @@ export function Products() {
   };
 
   /* =============================
-     IMAGE UPLOAD HANDLER
+     IMAGE UPLOAD HANDLERS
   ==============================*/
-  const handleImageUpload = async (file) => {
+  const handleImageUpload = async (file, imageField = "image") => {
     if (!file) return;
 
+    const setUploadState = imageField === "image2" ? setUploading2 : setUploading;
+
     try {
-      setUploading(true);
+      setUploadState(true);
       const data = await uploadProductImage(file);
-      setForm((prev) => ({ ...prev, image: data.imageUrl || "" }));
+      setForm((prev) => ({ ...prev, [imageField]: data.imageUrl || "" }));
     } catch (err) {
       console.error("Image upload error:", err.response?.data || err);
       const msg =
         err.response?.data?.message || err.message || "Image upload failed";
       alert(msg);
     } finally {
-      setUploading(false);
+      setUploadState(false);
     }
   };
 
@@ -100,6 +105,7 @@ export function Products() {
       description: form.description.trim(),
       price: Number(form.price) || 0,
       image: form.image.trim(),
+      image2: form.image2.trim(),
       category: form.category.trim(),
       stock: Number(form.stock) || 0,
     };
@@ -170,7 +176,14 @@ export function Products() {
                             className="h-10 w-10 rounded-lg object-cover"
                           />
                         )}
-                        <span>{p.name}</span>
+                        <div>
+                          <span className="font-medium">{p.name}</span>
+                          {p.description && (
+                            <p className="text-xs text-gray-400 mt-0.5 line-clamp-1 max-w-[200px]">
+                              {p.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </td>
 
@@ -195,7 +208,7 @@ export function Products() {
       {/* MODAL */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl relative">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl relative">
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition"
@@ -214,7 +227,7 @@ export function Products() {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, name: e.target.value }))
                 }
-                className="w-full border p-2"
+                className="w-full border p-2 rounded"
               />
 
               <input
@@ -223,8 +236,28 @@ export function Products() {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, brand: e.target.value }))
                 }
-                className="w-full border p-2"
+                className="w-full border p-2 rounded"
               />
+
+              {/* ── DESCRIPTION ── */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
+                <textarea
+                  placeholder="Enter detailed product description that will be shown to customers on the product details page..."
+                  value={form.description}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, description: e.target.value }))
+                  }
+                  rows={4}
+                  className="w-full border p-2 rounded resize-y text-sm"
+                  style={{ minHeight: "80px" }}
+                />
+                <p className="text-xs text-gray-400 mt-1">
+                  This description is visible to customers on the product detail page.
+                </p>
+              </div>
 
               <input
                 type="number"
@@ -233,7 +266,7 @@ export function Products() {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, price: e.target.value }))
                 }
-                className="w-full border p-2"
+                className="w-full border p-2 rounded"
               />
 
               <input
@@ -243,25 +276,30 @@ export function Products() {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, stock: e.target.value }))
                 }
-                className="w-full border p-2"
+                className="w-full border p-2 rounded"
                 min={0}
               />
 
-              <div className="space-y-3">
+              {/* ── IMAGE 1 (Primary) ── */}
+              <div className="space-y-2 border rounded-lg p-3 bg-gray-50">
+                <label className="block text-sm font-medium text-gray-700">
+                  <ImagePlus className="inline h-4 w-4 mr-1" />
+                  Primary Image
+                </label>
                 <input
                   placeholder="Image URL"
                   value={form.image}
                   onChange={(e) =>
                     setForm((f) => ({ ...f, image: e.target.value }))
                   }
-                  className="w-full border p-2"
+                  className="w-full border p-2 rounded bg-white"
                 />
 
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleImageUpload(e.target.files[0])}
-                  className="w-full"
+                  onChange={(e) => handleImageUpload(e.target.files[0], "image")}
+                  className="w-full text-sm"
                 />
 
                 {uploading && (
@@ -277,10 +315,45 @@ export function Products() {
                 )}
               </div>
 
+              {/* ── IMAGE 2 (Secondary) ── */}
+              <div className="space-y-2 border rounded-lg p-3 bg-gray-50">
+                <label className="block text-sm font-medium text-gray-700">
+                  <ImagePlus className="inline h-4 w-4 mr-1" />
+                  Second Image (optional)
+                </label>
+                <input
+                  placeholder="Second Image URL"
+                  value={form.image2}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, image2: e.target.value }))
+                  }
+                  className="w-full border p-2 rounded bg-white"
+                />
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e.target.files[0], "image2")}
+                  className="w-full text-sm"
+                />
+
+                {uploading2 && (
+                  <p className="text-sm text-gray-500">Uploading image...</p>
+                )}
+
+                {form.image2 && (
+                  <img
+                    src={form.image2}
+                    alt="preview 2"
+                    className="h-32 rounded object-cover"
+                  />
+                )}
+              </div>
+
               <button
                 type="submit"
-                disabled={uploading}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
+                disabled={uploading || uploading2}
+                className="bg-blue-600 text-white px-4 py-2 rounded w-full font-medium hover:bg-blue-700 transition disabled:opacity-50"
               >
                 {editingId ? "Update" : "Create"}
               </button>

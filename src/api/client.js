@@ -16,6 +16,25 @@ function getUserId() {
   return created;
 }
 
+// ── Simple in-memory response cache ──────────────────────────────
+const _cache = new Map();
+const CACHE_TTL = 60_000; // 1 minute
+
+function getCached(key) {
+  const entry = _cache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.ts > CACHE_TTL) {
+    _cache.delete(key);
+    return null;
+  }
+  return entry.data;
+}
+
+function setCache(key, data) {
+  _cache.set(key, { data, ts: Date.now() });
+}
+
+// ── Core request function ────────────────────────────────────────
 async function request(path, options = {}) {
   const headers = {
     "Content-Type": "application/json",
@@ -46,7 +65,15 @@ async function request(path, options = {}) {
 }
 
 export const api = {
-  get: (path) => request(path),
+  get: async (path, { cache = false } = {}) => {
+    if (cache) {
+      const cached = getCached(path);
+      if (cached) return cached;
+    }
+    const data = await request(path);
+    if (cache) setCache(path, data);
+    return data;
+  },
   post: (path, body) =>
     request(path, {
       method: "POST",

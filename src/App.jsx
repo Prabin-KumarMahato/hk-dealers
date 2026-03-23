@@ -1,13 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import "./app.css";
 import Navbar from "./components/Navbar.jsx";
-import Home from "./pages/Home.jsx";
-import Products from "./pages/Products.jsx";
-import ProductDetail from "./pages/ProductDetail.jsx";
-import Cart from "./pages/Cart.jsx";
-import About from "./pages/About.jsx";
-import Contact from "./pages/Contact.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
+
+// ── Route-based code splitting ───────────────────────────────────
+// Only Home loads eagerly (it's the landing page). The rest load on demand.
+import Home from "./pages/Home.jsx";
+
+const Products = lazy(() => import("./pages/Products.jsx"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail.jsx"));
+const Cart = lazy(() => import("./pages/Cart.jsx"));
+const About = lazy(() => import("./pages/About.jsx"));
+const Contact = lazy(() => import("./pages/Contact.jsx"));
+
+// Minimal spinner for route transitions
+const RouteFallback = () => <div className="spinner" />;
 
 function App() {
   return (
@@ -16,14 +24,16 @@ function App() {
         <div className="App">
           <Navbar />
           <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
+            <Suspense fallback={<RouteFallback />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </Suspense>
           </main>
           <footer className="footer">
             <div className="container">

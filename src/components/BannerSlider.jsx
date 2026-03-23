@@ -4,7 +4,7 @@ import { api } from "../api/client.js";
 import "../styles/BannerSlider.css";
 
 const fallbackSlides = [
-  { image: "/first-bannerimage.png", linkURL: "/products" },
+  { image: "/first-bannerimage.jpg", linkURL: "/products" },
   { image: "/second-bannerimage.jpg", linkURL: "/products" },
   { image: "/third-bannerimage.jpg", linkURL: "/products" },
 ];
