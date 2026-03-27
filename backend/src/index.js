@@ -78,6 +78,8 @@ const PORT = Number(process.env.PORT) || 5000;
 const allowedOrigins = [
   "https://hk-dealers.vercel.app",
   "https://hk-dealers-admin.vercel.app",
+  "https://hkdealers.me",
+  "https://www.hkdealers.me",
   "http://localhost:5173",
   "http://localhost:5174",
 ];

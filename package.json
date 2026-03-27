@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "cors": "^2.8.6",
     "lucide-react": "^0.563.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
