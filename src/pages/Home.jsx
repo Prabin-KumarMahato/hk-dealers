@@ -54,7 +54,7 @@ const Home = () => {
 
       <section style={{ marginTop: "3rem", overflow: "hidden" }}>
         <div className="container">
-          <h2 className="section-title" style={{ color: "#fff" }}>
+          <h2 className="section-title" style={{ color: "var(--color-text)" }}>
             Trusted Brands
           </h2>
         </div>
@@ -81,7 +81,7 @@ const Home = () => {
       </section>
 
       <section className="container">
-        <h2 className="section-title" style={{ color: "#fff" }}>
+        <h2 className="section-title" style={{ color: "var(--color-text)" }}>
           Featured Timepieces
         </h2>
         {loading ? (

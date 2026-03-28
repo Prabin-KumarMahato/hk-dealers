@@ -2,7 +2,7 @@
 .banner-section {
   background: radial-gradient(
     circle at center,
-    rgba(44, 40, 36, 0.8) 0%,
+    rgba(245, 245, 245, 0.8) 0%,
     var(--color-background) 100%
   );
   color: var(--color-text);
@@ -33,7 +33,7 @@
   background: linear-gradient(
     135deg,
     var(--color-text) 0%,
-    rgba(250, 250, 249, 0.6) 100%
+    rgba(10, 10, 10, 0.6) 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -107,7 +107,7 @@
 
 .brand-marquee-item::after {
   content: "·";
-  color: rgba(250, 250, 249, 0.15);
+  color: rgba(10, 10, 10, 0.15);
   font-size: 2rem;
   line-height: 1;
 }
@@ -121,7 +121,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 4px;
-  color: rgba(250, 250, 249, 0.5);
+  color: rgba(10, 10, 10, 0.5);
   text-transform: uppercase;
   white-space: nowrap;
   transition: all 300ms ease;
@@ -157,10 +157,10 @@
 
 /* Values Section */
 .values-section {
-  background: rgba(28, 25, 23, 0.6);
+  background: rgba(240, 240, 240, 0.6);
   backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(250, 250, 249, 0.05);
-  border-bottom: 1px solid rgba(250, 250, 249, 0.05);
+  border-top: 1px solid rgba(10, 10, 10, 0.05);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.05);
   padding: 5rem 0;
   margin-top: 3rem;
 }
@@ -168,16 +168,16 @@
 .value-card {
   text-align: center;
   padding: var(--space-xl);
-  background: rgba(250, 250, 249, 0.03);
+  background: rgba(10, 10, 10, 0.03);
   border-radius: 16px;
-  border: 1px solid rgba(250, 250, 249, 0.05);
+  border: 1px solid rgba(10, 10, 10, 0.05);
   transition: all 400ms ease;
   height: 100%;
 }
 
 .value-card:hover {
   transform: translateY(-8px);
-  background: rgba(250, 250, 249, 0.05);
+  background: rgba(10, 10, 10, 0.05);
   border-color: rgba(202, 138, 4, 0.2);
 }
 
@@ -195,7 +195,7 @@
 }
 
 .value-text {
-  color: rgba(250, 250, 249, 0.6);
+  color: rgba(10, 10, 10, 0.6);
   line-height: 1.6;
   font-family: "Montserrat", sans-serif;
 }
@@ -213,7 +213,7 @@
 }
 
 .cta-text {
-  color: rgba(250, 250, 249, 0.6);
+  color: rgba(10, 10, 10, 0.6);
   margin-bottom: 2.5rem;
   font-size: 1.2rem;
   line-height: 1.6;

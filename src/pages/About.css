@@ -147,7 +147,7 @@
   width: 100%;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(10, 10, 10, 0.1);
   transition: transform 0.3s;
 }
 
@@ -173,7 +173,7 @@
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(10, 10, 10, 0.1);
   transition: transform 0.3s;
 }
 
